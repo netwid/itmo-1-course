@@ -1,0 +1,8 @@
+**/.idea
+*.odt
+**/out
+**/venv
+*.odt#
+*.iml
+Informatics/Labs/Laba1/
+Informatics/Presentations/
