@@ -6,10 +6,10 @@
 
 ### Лемма Бореля-Лебега
 
-![bor_1](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/bor_1.png)
+![bor_1](./images/bor_1.png)
 
 ### Предельные точки
 
-![bor_2](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/bor_2.png)
+![bor_2](./images/bor_2.png)
 
-![bor_3](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/bor_3.png)
+![bor_3](./images/bor_3.png)
