@@ -8,12 +8,12 @@
 
 <h3>Рациональные числа</h3>
 
-![rational_1](./rational_1.png)
+![rational_1](./images/rational_1.png)
 
 
 
 
 <h3>Иррациональные числа</h3>
 
-![rational_2](./rational_2.png)
+![rational_2](./images/rational_2.png)
 
