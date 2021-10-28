@@ -6,22 +6,22 @@
 
 ### Определения
 
-![func_1](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_1.png)
+![func_1](./images/func_1.png)
 
-![func_2](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_2.png)
+![func_2](./images/func_2.png)
 
 ### Свойства
 
-![func_3](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_3.png)
+![func_3](./images/func_3.png)
 
 ### Инъекция, сюръекция, биекция
 
-![func_4](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_4.png)
+![func_4](./images/func_4.png)
 
 ### Обратная функция
 
-![func_5](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_5.png)
+![func_5](./images/func_5.png)
 
 ### Композиция (сложная функция)
 
-![func_6](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/func_6.png)
+![func_6](./images/func_6.png)

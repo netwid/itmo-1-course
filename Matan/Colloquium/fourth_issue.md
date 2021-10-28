@@ -8,12 +8,12 @@
 
 ### Индуктивные множества, натуральные числа и принцип мат. индукции
 
-![ind_1](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/ind_1.png)
+![ind_1](./images/ind_1.png)
 
 ### Факториал и сочетания
 
-![ind_2](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/ind_2.png)
+![ind_2](./images/ind_2.png)
 
 ### Бином
 
-![ind_3](/home/ilya/User/IFMO/ifmo-1-course/Matan/Colloquium/images/ind_3.png)
+![ind_3](./images/ind_3.png)
