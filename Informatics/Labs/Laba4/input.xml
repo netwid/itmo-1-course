@@ -1,0 +1,64 @@
+<schedule>
+    <day>Ср</day>
+    <lessons>
+        <lesson>
+            <time>
+                <value>08:20-09:50</value>
+                <weeks>четная неделя</weeks>
+            </time>
+            <room>
+                <number>304 ауд.</number>
+                <address>Кронверкский пр., д.49, лит.А</address>
+            </room>
+            <subject>Программирование(Лаб)</subject>
+            <weekType>четная неделя</weekType>
+            <teacher>Райла Мартин</teacher>
+            <format>Очно - дистанционный</format>
+        </lesson>
+
+        <lesson>
+            <time>
+                <value>10:00-11:30</value>
+                <weeks>четная неделя</weeks>
+            </time>
+            <room>
+                <number>304 ауд.</number>
+                <address>Кронверкский пр., д.49, лит.А</address>
+            </room>
+            <subject>Программирование(Лаб)</subject>
+            <weekType>четная неделя</weekType>
+            <teacher>Райла Мартин</teacher>
+            <format>Очно - дистанционный</format>
+        </lesson>
+
+        <lesson>
+            <time>
+                <value>11:40-13:10</value>
+                <weeks>3, 5, 7, 9, 11, 13, 15, 17</weeks>
+            </time>
+            <room>
+                <number>304 ауд.</number>
+                <address>Кронверкский пр., д.49, лит.А</address>
+            </room>
+            <subject>Основы профессиональной деятельности(Лаб)</subject>
+            <weekType>нечетная неделя</weekType>
+            <teacher>Перцев Тимофей Сергеевич</teacher>
+            <format>Очно - дистанционный</format>
+        </lesson>
+
+        <lesson>
+            <time>
+                <value>13:30-15:00</value>
+                <weeks>3, 5, 7, 9, 11, 13, 15, 17</weeks>
+            </time>
+            <room>
+                <number>304 ауд.</number>
+                <address>Кронверкский пр., д.49, лит.А</address>
+            </room>
+            <subject>Основы профессиональной деятельности(Лаб)</subject>
+            <weekType>нечетная неделя</weekType>
+            <teacher>Перцев Тимофей Сергеевич</teacher>
+            <format>Очно - дистанционный</format>
+        </lesson>
+    </lessons>
+</schedule>
