@@ -86,9 +86,9 @@ def third(xml_string):
 
 def fourth():
     setup = "xml_string = open('input.xml', 'r').read().replace('\\n', '')"
-    print(Timer('from __main__ import first; first(xml_string)', setup=setup).timeit(10))
-    print(Timer('from __main__ import second; second(xml_string)', setup=setup).timeit(10))
-    print(Timer('from __main__ import third; third(xml_string)', setup=setup).timeit(10))
+    print(Timer('from __main__ import first; first(xml_string)', setup=setup).timeit(100))
+    print(Timer('from __main__ import second; second(xml_string)', setup=setup).timeit(100))
+    print(Timer('from __main__ import third; third(xml_string)', setup=setup).timeit(100))
 
 
 def fifth(xml_string):
