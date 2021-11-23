@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        Scooperfield s = new Scooperfield("Scooperfield");
-        Watchman w = new Watchman("Watchman");
+        Scooperfield s = new Scooperfield("Скуперфильд");
+        Watchman w = new Watchman("Охранник");
         Potato[] potatoes = {new Potato(), new Potato(), new Potato()};
 
         s.move(Place.TABLE);

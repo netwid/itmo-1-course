@@ -19,6 +19,7 @@ public class Potato {
     }
 
     public Tuber getTuber() {
+        System.out.println("Клубен отделён");
         return tubers.remove(0);
     }
 

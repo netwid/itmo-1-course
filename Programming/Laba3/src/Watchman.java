@@ -10,6 +10,7 @@ public class Watchman extends Character {
     }
 
     public void capture(Character ch) {
+        System.out.println(this.getName() + " схватил " + ch.getName());
         if (checkYourself(ch))
             ch.alertness += 10;
     }

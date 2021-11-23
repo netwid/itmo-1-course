@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Objects;
 
 public class Character {
@@ -15,12 +16,14 @@ public class Character {
 
     public void move(Place place) {
         this.place = place;
+        System.out.println(this.getName() + " пошёл к " + place.getName());
     }
 
     public String react() {
+
         if (alertness > 5) {
             this.place = Place.ASYLUM;
-            return "AAAAAAA";
+            return this.getName() + " испугался и убежал";
         }
         return "";
     }

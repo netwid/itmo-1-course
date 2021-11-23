@@ -7,6 +7,7 @@ public class TopHat implements Storagable {
     }
 
     public void put(Storable item) {
+        System.out.println("В шляпу положен предмет");
         items.add(item);
     }
 }
