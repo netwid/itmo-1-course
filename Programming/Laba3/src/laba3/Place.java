@@ -1,3 +1,5 @@
+package laba3;
+
 public enum Place {
     TABLE("Стол"),
     WICKER("Заросли"),

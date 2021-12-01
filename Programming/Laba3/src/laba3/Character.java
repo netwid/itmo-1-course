@@ -1,10 +1,14 @@
-import java.sql.SQLOutput;
+package laba3;
+
+import laba3.moves.MoveStrategy;
+
 import java.util.Objects;
 
 public class Character {
     String name;
     protected Place place;
     protected int alertness;
+    protected MoveStrategy moveStrategy;
 
     public Character(String name) {
         this.name = name;
@@ -14,18 +18,20 @@ public class Character {
         return name;
     }
 
-    public void move(Place place) {
-        this.place = place;
-        System.out.println(this.getName() + " пошёл к " + place.getName());
+    public void setMoveStrategy(MoveStrategy moveStrategy) {
+        this.moveStrategy = moveStrategy;
     }
 
-    public String react() {
+    public void move(Place place) {
+        this.place = place;
+        System.out.println(this.getName() + " " + moveStrategy.move(place));
+    }
 
+    public void react() {
         if (alertness > 5) {
             this.place = Place.ASYLUM;
-            return this.getName() + " испугался и убежал";
+            System.out.println(this.getName() + " испугался и убежал");
         }
-        return "";
     }
 
     @Override
@@ -43,7 +49,7 @@ public class Character {
 
     @Override
     public String toString() {
-        return "Character{" +
+        return "laba3.Character{" +
                 "name='" + name + '\'' +
                 ", place=" + place +
                 ", alertness=" + alertness +

@@ -1,4 +1,4 @@
-import java.util.Objects;
+package laba3;
 
 public class Watchman extends Character {
     public Watchman(String name) {
@@ -17,7 +17,7 @@ public class Watchman extends Character {
 
     @Override
     public String toString() {
-        return "Watchman{" +
+        return "laba3.Watchman{" +
                 "name='" + name + '\'' +
                 ", place=" + place +
                 ", alertness=" + alertness +

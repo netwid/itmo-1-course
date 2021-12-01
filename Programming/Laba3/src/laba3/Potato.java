@@ -1,9 +1,11 @@
+package laba3;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Potato {
-    private Root root;
-    private ArrayList<Tuber> tubers;
+    private final Root root;
+    private final ArrayList<Tuber> tubers;
     {
         root = new Root();
         tubers = new ArrayList<Tuber> ();
@@ -38,7 +40,7 @@ public class Potato {
 
     @Override
     public String toString() {
-        return "Potato{" +
+        return "laba3.Potato{" +
                 "root=" + root +
                 ", tubers=" + tubers +
                 '}';

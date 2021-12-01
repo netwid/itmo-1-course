@@ -1,3 +1,5 @@
+package laba3;
+
 import java.util.ArrayList;
 
 public class TopHat implements Storagable {

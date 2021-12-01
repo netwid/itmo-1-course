@@ -1,3 +1,5 @@
+package laba3;
+
 import java.util.Objects;
 
 public class Scooperfield extends Character {
@@ -36,7 +38,7 @@ public class Scooperfield extends Character {
 
     @Override
     public String toString() {
-        return "Scooperfield{" +
+        return "laba3.Scooperfield{" +
                 "name='" + name + '\'' +
                 ", place=" + place +
                 ", alertness=" + alertness +
@@ -44,3 +46,5 @@ public class Scooperfield extends Character {
                 '}';
     }
 }
+
+
