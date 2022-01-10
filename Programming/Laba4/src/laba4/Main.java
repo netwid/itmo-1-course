@@ -3,6 +3,7 @@ package laba4;
 import laba4.characters.Scooperfield;
 import laba4.characters.Shorty;
 import laba4.characters.Watchman;
+import laba4.exceptions.EmptyException;
 import laba4.exceptions.NotEnoughSpaceException;
 import laba4.food.Drink;
 import laba4.food.Eatable;
@@ -37,9 +38,14 @@ public class Main {
         s.say("А вы умеете?");
         shorties.get("Мизинчик").say("Еще бы не уметь!");
 
-        Eatable tuber = (Eatable) s.pocket.pullOut();
-        if (Math.random() < 0.3)
-            s.eat(tuber);
+        try {
+            Eatable tuber = (Eatable) s.pocket.pullOut();
+            if (Math.random() < 0.3)
+                s.eat(tuber);
+        }
+        catch (EmptyException e) {
+            System.out.println("Карман пуст");
+        }
         s.move(Place.BONFIRE);
         s.say("Так вы, братцы, пеките, а я принесу еще");
 

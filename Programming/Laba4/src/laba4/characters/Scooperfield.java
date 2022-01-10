@@ -1,6 +1,7 @@
 package laba4.characters;
 
 import laba4.Place;
+import laba4.exceptions.EmptyException;
 import laba4.exceptions.NotEnoughSpaceException;
 import laba4.food.Potato;
 import laba4.Storable;
@@ -45,7 +46,10 @@ public class Scooperfield extends Character {
             items.add(item);
         }
 
-        public Storable pullOut() {
+        public Storable pullOut() throws NotEnoughSpaceException {
+            if (items.isEmpty())
+                throw new NotEnoughSpaceException();
+
             System.out.println("Из шляпы вытащен предмет");
             return items.remove(items.size() - 1);
         }
@@ -61,7 +65,10 @@ public class Scooperfield extends Character {
             this.item = item;
         }
 
-        public Storable pullOut() {
+        public Storable pullOut() throws EmptyException {
+            if (this.item == null)
+                throw new EmptyException();
+
             Storable temp = this.item;
             this.item = null;
             System.out.println("Из кармана вытащен предмет");
