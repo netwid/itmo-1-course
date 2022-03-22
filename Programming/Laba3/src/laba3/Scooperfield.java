@@ -16,10 +16,13 @@ public class Scooperfield extends Character {
 
     public void collectTubers(Potato[] potatoes) {
         System.out.println(this.getName() + " собирает клубни");
-        if (checkPotatoField())
-            for (Potato p : potatoes)
-                while (!p.isEmpty())
+        if (checkPotatoField()) {
+            for (Potato p : potatoes) {
+                while (!p.isEmpty()) {
                     topHat.put(p.getTuber());
+                }
+            }
+        }
     }
 
     @Override

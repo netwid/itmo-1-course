@@ -6,3 +6,5 @@
 *.iml
 Informatics/Labs/Laba1/
 Informatics/Presentations/
+
+**/target
