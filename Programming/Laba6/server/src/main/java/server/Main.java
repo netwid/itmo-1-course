@@ -16,7 +16,7 @@ public class Main {
 
         try {
             Invoker invoker = Invoker.getInstance(args[0], new CollectionManager());
-            invoker.execute(new Request("load", args));
+            invoker.execute(new Request("load", args, null));
 
             while (true) {
                 Request request = Server.receive();

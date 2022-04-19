@@ -32,7 +32,7 @@ public class ExecuteScriptCommand implements Command {
                 String[] words = line.trim().split("\\s+");
                 String command = words[0];
                 String[] argv = Arrays.copyOfRange(words, 1, words.length);
-                invoker.execute(new Request(command, argv));
+                invoker.execute(new Request(command, argv, null));
             }
 
             executeFiles.clear();

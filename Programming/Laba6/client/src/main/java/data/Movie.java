@@ -161,6 +161,10 @@ public class Movie implements Serializable {
         return genre;
     }
 
+    public double coordinatesTo(Coordinates coordinates) {
+        return Math.sqrt(Math.pow(this.coordinates.getX() - coordinates.getX(), 2) +
+                         Math.pow(this.coordinates.getY() - coordinates.getY(), 2));
+    }
 
     /**
      * Set id.

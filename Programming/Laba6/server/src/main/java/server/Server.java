@@ -57,7 +57,7 @@ public class Server {
 
     public static Request receive() {
         try {
-            ByteBuffer buf = ByteBuffer.allocate(1024);
+            ByteBuffer buf = ByteBuffer.allocate(1024 * 1024);
             SocketAddress addr = dc.receive(buf);
             logger.info("Получен новый запрос от " + addr.toString());
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buf.array()));

@@ -55,19 +55,10 @@ public class CollectionManager {
     }
 
     /**
-     * Show movies.
+     * Get all movies.
      */
-    public String[] show() {
-        try {
-            ArrayList<String> moviesList = new ArrayList<>();
-            movies.forEach((movie) -> System.out.println(movie.toString()));
-            movies.forEach((movie) -> moviesList.add(movie.toString()));
-            return moviesList.toArray(new String[0]);
-        }
-        catch (NullPointerException e) {
-            System.out.println(e.getMessage());
-        }
-        return new String[] {};
+    public HashSet<Movie> getAll() {
+        return movies;
     }
 
     /**

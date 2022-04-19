@@ -36,9 +36,13 @@ public class Client {
     }
 
     public static void sendCommand(String line) {
+        Client.sendCommandObject(line, null);
+    }
+
+    public static void sendCommandObject(String line, Serializable obj) {
         try {
             String[] words = line.trim().split("\\s+");
-            Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length));
+            Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length), obj);
 
             if (request.command.equals("exit"))
                 System.exit(0);
@@ -51,21 +55,6 @@ public class Client {
         }
         catch (IOException e) {
             System.out.println("Ошибка при отсылке команды");
-        }
-    }
-
-    public void sendObject(Serializable obj) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             ObjectOutputStream os = new ObjectOutputStream(out)) {
-            Request request = new Request();
-            request.object = obj;
-            request.command = "add";
-            os.writeObject(request);
-            dp = new DatagramPacket(out.toByteArray(), out.toByteArray().length, host, port);
-            ds.send(dp);
-        }
-        catch (IOException e) {
-            System.out.println("Ошибка при отсылке объекта");
         }
     }
 
