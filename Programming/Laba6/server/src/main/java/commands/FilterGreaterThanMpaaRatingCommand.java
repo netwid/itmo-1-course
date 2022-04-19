@@ -25,8 +25,10 @@ public class FilterGreaterThanMpaaRatingCommand implements Command {
 
     @Override
     public void execute(Request request) {
-        if (request.object == null)
+        if (request.object == null) {
             Server.requestObject(request.client, MpaaRating.class);
+            return;
+        }
         MpaaRating mpaaRating = (MpaaRating) request.object;
         List<Movie> movies = collectionManager.filterMovies(movie -> movie.getMpaaRating().compareRatings(mpaaRating) == 1);
         //movies.forEach(Server::print, request.client);

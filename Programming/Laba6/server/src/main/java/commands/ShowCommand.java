@@ -1,8 +1,12 @@
 package commands;
 
+import data.Coordinates;
+import data.Movie;
 import data.Request;
 import server.CollectionManager;
 import server.Server;
+
+import java.util.Comparator;
 
 /**
  * The type Show command.
@@ -21,12 +25,18 @@ public class ShowCommand implements Command {
 
     @Override
     public void execute(Request request) {
-        StringBuilder response = new StringBuilder("");
-
-        for (String movie : this.collectionManager.show()) {
-            response.append(movie).append('\n');
+        if (request.object == null) {
+            Server.requestObject(request.client, Coordinates.class);
+            return;
         }
+        Coordinates coordinates = (Coordinates) request.object;
 
-        Server.print(request.client, String.valueOf(response));
+        String response = this.collectionManager.getAll()
+            .stream()
+            .sorted(Comparator.comparingDouble(x -> x.coordinatesTo(coordinates)))
+            .map(Movie::toString)
+            .reduce("", (prefix, movieString) -> prefix + movieString + "\n");
+
+        Server.print(request.client, response);
     }
 }

@@ -25,7 +25,7 @@ public class Main {
                 if (response.command != null) {
                     if (response.command.equals("send") && response.toInput != null) {
                         Serializable obj = (Serializable) response.toInput.getMethod("input").invoke(null);
-                        client.sendObject(obj);
+                        Client.sendCommandObject(line, obj);
 
                         Response response2 = Client.receive();
                         System.out.print(response2.toPrint);

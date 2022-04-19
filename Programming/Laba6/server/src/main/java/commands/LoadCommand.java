@@ -28,20 +28,28 @@ public class LoadCommand implements Command {
 
     @Override
     public void execute(Request request) {
+        String errorMsg;
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), StandardCharsets.UTF_8))) {
             String line = br.readLine();
             collectionManager.fromJson(line);
             return;
         }
         catch (FileNotFoundException e) {
-            Server.print(request.client, "Не удалось найти файл\n");
+            errorMsg = "Не удалось найти файл\n";
         }
         catch (IOException e) {
-            Server.print(request.client, "Ошибка при записи в файл. Недостаточно прав\n");
+            errorMsg = "Ошибка при записи в файл. Недостаточно прав\n";
         }
         catch (NullPointerException e) {
             return;
         }
-        Invoker.getInstance().execute(new Request("exit", new String[] {}));
+        if (request.client == null) {
+            System.out.println(errorMsg);
+            System.exit(0);
+        }
+        else {
+            Server.print(request.client, errorMsg);
+        }
     }
 }
