@@ -37,6 +37,7 @@ public class Invoker {
         commands.put("print_field_descending_genre", new PrintFieldDescendingGenre(collectionManager));
         commands.put("get_id", new GetIdCommand(collectionManager));
         commands.put("check_passport", new CheckPassportCommand(collectionManager));
+        commands.put("exit", new ExitCommand());
     }
 
     public static Invoker getInstance(String fileName, CollectionManager collectionManager) {
