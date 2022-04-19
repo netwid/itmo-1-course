@@ -24,8 +24,10 @@ public class AddIfMinCommand implements Command {
 
     @Override
     public void execute(Request request) {
-        if (request.object == null)
+        if (request.object == null) {
             Server.requestObject(request.client, Movie.class);
+            return;
+        }
         Movie newMovie = (Movie) request.object;
         List<Movie> movies = collectionManager.filterMovies(movie -> movie.getLength() <= newMovie.getLength());
         if (!movies.isEmpty()) {

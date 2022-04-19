@@ -39,6 +39,10 @@ public class Client {
         try {
             String[] words = line.trim().split("\\s+");
             Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length));
+
+            if (request.command.equals("exit"))
+                System.exit(0);
+
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             objectOutputStream.writeObject(request);

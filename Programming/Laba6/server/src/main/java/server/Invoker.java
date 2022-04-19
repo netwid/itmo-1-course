@@ -29,7 +29,6 @@ public class Invoker {
         commands.put("clear", new ClearCommand(collectionManager));
         commands.put("save", new SaveCommand(fileName, collectionManager));
         commands.put("execute_script", new ExecuteScriptCommand());
-        commands.put("exit", new ExitCommand());
         commands.put("add_if_max", new AddIfMaxCommand(collectionManager));
         commands.put("add_if_min", new AddIfMinCommand(collectionManager));
         commands.put("remove_lower", new RemoveLowerCommand(collectionManager));
