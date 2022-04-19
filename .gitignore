@@ -4,6 +4,7 @@
 **/venv
 *.odt#
 *.iml
+*.log
 Informatics/Labs/Laba1/
 Informatics/Presentations/
 
