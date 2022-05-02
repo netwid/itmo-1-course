@@ -21,10 +21,10 @@ public class Server {
             InetSocketAddress addr = new InetSocketAddress(port);
             dc = DatagramChannel.open();
             dc.bind(addr);
+            dc.configureBlocking(false);
             logger.info("Сервер запущен");
-        }
-        catch (java.io.IOException e) {
-
+        } catch (IOException e) {
+            System.out.println("Ошибка при инициализации сервера");
         }
     }
 
@@ -37,6 +37,11 @@ public class Server {
     }
 
     public static void print(SocketAddress addr, String toPrint) {
+        if (addr == null) {
+            System.out.print(toPrint);
+            return;
+        }
+
         Response response = new Response();
         response.toPrint = toPrint;
 
@@ -49,9 +54,8 @@ public class Server {
             os.writeObject(response);
             dc.send(ByteBuffer.wrap(out.toByteArray()), addr);
             logger.info("Ответ отправлен на " + addr.toString());
-        }
-        catch (IOException e) {
-
+        } catch (IOException e) {
+            System.out.println("Ошибка при отправке запроса на " + addr);
         }
     }
 
@@ -59,11 +63,13 @@ public class Server {
         try {
             ByteBuffer buf = ByteBuffer.allocate(1024 * 1024);
             SocketAddress addr = dc.receive(buf);
-            logger.info("Получен новый запрос от " + addr.toString());
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buf.array()));
-            Request request = (Request) ois.readObject();
-            request.client = addr;
-            return request;
+            if (addr != null) {
+                logger.info("Получен новый запрос от " + addr);
+                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buf.array()));
+                Request request = (Request) ois.readObject();
+                request.client = addr;
+                return request;
+            }
         } catch (ClassNotFoundException | IOException e) {
             System.out.println(e.toString());
         }
