@@ -44,11 +44,11 @@ public class Client {
             String[] words = line.trim().split("\\s+");
             Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length), obj);
 
-            if (request.command.equals("exit"))
+            if (request.command.equals("exit")) {
                 System.exit(0);
+            }
             if (request.command.equals("save")) {
-                System.out.println("Команда не найдена");
-                return;
+                request.command = "abcdef"; // for "command not found"
             }
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
