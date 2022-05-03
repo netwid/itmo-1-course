@@ -24,7 +24,7 @@ public class Client {
         } catch (UnknownHostException e) {
             System.out.println("Неизвестный хост");
         } catch (SocketException e) {
-            e.printStackTrace();
+            System.out.println("Ошибка создания сокета");;
         }
         System.exit(1);
     }
@@ -44,8 +44,12 @@ public class Client {
             String[] words = line.trim().split("\\s+");
             Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length), obj);
 
-            if (request.command.equals("exit") && request.args.length == 0)
+            if (request.command.equals("exit"))
                 System.exit(0);
+            if (request.command.equals("save")) {
+                System.out.println("Команда не найдена");
+                return;
+            }
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);

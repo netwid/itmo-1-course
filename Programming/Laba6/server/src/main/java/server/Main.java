@@ -19,7 +19,7 @@ public class Main {
 
         try {
             Invoker invoker = Invoker.getInstance(args[0], new CollectionManager());
-            //invoker.execute(new Request("load", args));
+            invoker.execute(new Request("load", args));
             System.out.print("> ");
 
             while (true) {

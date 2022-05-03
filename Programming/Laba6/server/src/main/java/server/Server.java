@@ -70,8 +70,10 @@ public class Server {
                 request.client = addr;
                 return request;
             }
-        } catch (ClassNotFoundException | IOException e) {
-            System.out.println(e.toString());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Полученный объект не найден");
+        } catch (IOException e) {
+            System.out.println("Ошибка получения запроса");
         }
         return null;
     }
