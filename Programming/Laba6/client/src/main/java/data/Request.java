@@ -1,10 +1,10 @@
 package data;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.SocketAddress;
 
 public class Request implements Serializable {
+    private static final long serialVersionUID = -1679248067145723066L;
     public String command;
     public String[] args;
     public Serializable object;
