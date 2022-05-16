@@ -55,7 +55,8 @@ public class CollectionManager {
      * Clear movies.
      */
     public void clear() {
-        movies.clear();
+        if (dm.clear())
+            movies.clear();
     }
 
     /**

@@ -105,6 +105,44 @@ public class DatabaseManager {
         }
     }
 
+    public int update(int id, Movie movie) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(id, name, coordinates_x, coordinates_y, " +
+                    "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
+                    "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
+            ps.setInt(1, id);
+            ps.setString(2, movie.getName());
+            ps.setDouble(3, movie.getCoordinates().getX());
+            ps.setInt(4, movie.getCoordinates().getY());
+            ps.setDate(5, Date.valueOf(movie.getCreationDate()));
+            ps.setLong(6, movie.getOscarsCount());
+            ps.setInt(7, movie.getLength());
+            ps.setString(8, movie.getGenre().name());
+            ps.setString(9, movie.getMpaaRating().name());
+            ps.setString(10, movie.getScreenwriter().getName());
+            ps.setTimestamp(11, Timestamp.valueOf(movie.getScreenwriter().getBirthday()));
+            ps.setInt(12, movie.getScreenwriter().getHeight());
+            ps.setDouble(13, movie.getScreenwriter().getWeight());
+            ps.setString(14, movie.getScreenwriter().getPassportID());
+            ResultSet rs = ps.executeQuery();
+            rs.first();
+            return rs.getInt("movie_id");
+        } catch (Exception e) {
+            System.out.println("Ошибка добавления");
+            return 0;
+        }
+    }
+
+    public boolean clear() {
+        try {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM movie");
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public boolean removeById(int id) {
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE movie_id = ?");

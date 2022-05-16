@@ -10,7 +10,7 @@ public class Main {
         System.out.println("Starting a client module");
         Client client = new Client();
 
-        try {+
+        try {
             while (true) {
                 System.out.print("> ");
                 Scanner scanner = new Scanner(System.in);
