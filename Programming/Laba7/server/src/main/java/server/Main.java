@@ -24,7 +24,6 @@ public class Main {
         try {
             Invoker invoker = Invoker.getInstance(new CollectionManager());
             invoker.execute(new Request("load", args, "", ""));
-            System.out.print("> ");
 
             ThreadPoolExecutor cachedPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
             while (true) {

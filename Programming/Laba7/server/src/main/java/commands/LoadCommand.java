@@ -29,7 +29,7 @@ public class LoadCommand implements Command {
             collectionManager.load();
         }
         catch (Exception e) {
-
+            System.out.println("Ошибка загрузки коллекции");
         }
     }
 }

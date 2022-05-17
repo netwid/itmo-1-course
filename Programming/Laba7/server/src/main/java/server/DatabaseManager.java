@@ -28,7 +28,7 @@ public class DatabaseManager {
                     "salt VARCHAR(10) NOT NULL" +
                 ");" +
                 "CREATE TABLE IF NOT EXISTS movie (" +
-                    "movie_id SERIAL," +
+                    "movie_id SERIAL PRIMARY KEY," +
                     "name VARCHAR(20) NOT NULL," +
                     "coordinates_x DOUBLE PRECISION NOT NULL,"  +
                     "coordinates_y INTEGER NOT NULL," +
@@ -77,11 +77,11 @@ public class DatabaseManager {
                     rs.getDate("creation_date").toLocalDate(),
                     rs.getLong("oscars_count"),
                     rs.getInt("length"),
-                    MovieGenre.valueOf(rs.getString("movie_genre")),
-                    MpaaRating.valueOf(rs.getString("mpaa_rating")),
+                    rs.getString("movie_genre") == null ? null : MovieGenre.valueOf(rs.getString("movie_genre")),
+                    rs.getString("mpaa_rating") == null ? null : MpaaRating.valueOf(rs.getString("mpaa_rating")),
                     new Person(
                         rs.getString("screenwriter_name"),
-                        rs.getTimestamp("screenwriter_birthday").toLocalDateTime(),
+                        rs.getTimestamp("screenwriter_birthday") == null ? null : rs.getTimestamp("screenwriter_birthday").toLocalDateTime(),
                         rs.getInt("screenwriter_height"),
                         rs.getDouble("screenwriter_weight"),
                         rs.getString("screenwriter_passport_id")
@@ -108,12 +108,21 @@ public class DatabaseManager {
             ps.setDate(4, Date.valueOf(movie.getCreationDate()));
             ps.setLong(5, movie.getOscarsCount());
             ps.setInt(6, movie.getLength());
-            ps.setString(7, movie.getGenre().name());
+            if (movie.getGenre() != null)
+                ps.setString(7, movie.getGenre().name());
+            else
+                ps.setNull(7, java.sql.Types.NULL);
             ps.setString(8, movie.getMpaaRating().name());
             ps.setString(9, movie.getScreenwriter().getName());
-            ps.setTimestamp(10, Timestamp.valueOf(movie.getScreenwriter().getBirthday()));
+            if (movie.getScreenwriter().getBirthday() != null)
+                ps.setTimestamp(10, Timestamp.valueOf(movie.getScreenwriter().getBirthday()));
+            else
+                ps.setNull(10, java.sql.Types.NULL);
             ps.setInt(11, movie.getScreenwriter().getHeight());
-            ps.setDouble(12, movie.getScreenwriter().getWeight());
+            if (movie.getScreenwriter().getWeight() != null)
+                ps.setDouble(12, movie.getScreenwriter().getWeight());
+            else
+                ps.setNull(12, java.sql.Types.NULL);
             ps.setString(13, movie.getScreenwriter().getPassportID());
             ps.setString(14, login);
             ResultSet rs = ps.executeQuery();
@@ -121,6 +130,7 @@ public class DatabaseManager {
             return rs.getInt("movie_id");
         } catch (Exception e) {
             System.out.println("Ошибка добавления");
+            System.out.println(e.getMessage());
             return 0;
         }
     }
@@ -141,12 +151,21 @@ public class DatabaseManager {
             ps.setDate(5, Date.valueOf(movie.getCreationDate()));
             ps.setLong(6, movie.getOscarsCount());
             ps.setInt(7, movie.getLength());
-            ps.setString(8, movie.getGenre().name());
+            if (movie.getGenre() != null)
+                ps.setString(8, movie.getGenre().name());
+            else
+                ps.setNull(8, java.sql.Types.NULL);
             ps.setString(9, movie.getMpaaRating().name());
             ps.setString(10, movie.getScreenwriter().getName());
-            ps.setTimestamp(11, Timestamp.valueOf(movie.getScreenwriter().getBirthday()));
+            if (movie.getScreenwriter().getBirthday() != null)
+                ps.setTimestamp(11, Timestamp.valueOf(movie.getScreenwriter().getBirthday()));
+            else
+                ps.setNull(11, java.sql.Types.NULL);
             ps.setInt(12, movie.getScreenwriter().getHeight());
-            ps.setDouble(13, movie.getScreenwriter().getWeight());
+            if (movie.getScreenwriter().getWeight() != null)
+                ps.setDouble(13, movie.getScreenwriter().getWeight());
+            else
+                ps.setNull(13, java.sql.Types.NULL);
             ps.setString(14, movie.getScreenwriter().getPassportID());
             ResultSet rs = ps.executeQuery();
             rs.first();

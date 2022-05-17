@@ -18,7 +18,7 @@ public class Person implements Serializable {
     private Double weight;          // Поле может быть null, Значение поля должно быть больше 0
     private String passportID;      // Длина строки не должна быть больше 41, Значение этого поля должно быть уникальным, Поле не может быть null
 
-    public Person(String name, LocalDateTime birthday, int height, double weight, String passportID) {
+    public Person(String name, LocalDateTime birthday, int height, Double weight, String passportID) {
         this.name = name;
         this.birthday = birthday;
         this.height = height;
@@ -42,7 +42,7 @@ public class Person implements Serializable {
         String name = inputName();
         LocalDateTime birthday = inputBirthday();
         int height = inputHeight();
-        double weight = inputWeight();
+        Double weight = inputWeight();
         String passportId = inputPassportId();
 
         return new Person(name, birthday, height, weight, passportId);
@@ -71,7 +71,10 @@ public class Person implements Serializable {
     private static LocalDateTime inputBirthday() {
         try {
             System.out.print("Введите дату рождения (yyyy-mm-dd): ");
-            return LocalDate.parse(IO.get(), DateTimeFormatter.ISO_DATE).atStartOfDay();
+            String in = IO.get();
+            if (in.equals(""))
+                return null;
+            return LocalDate.parse(in, DateTimeFormatter.ISO_DATE).atStartOfDay();
         }
         catch (DateTimeParseException e) {
             System.out.println("Введите дату в правильном формате");
@@ -105,10 +108,13 @@ public class Person implements Serializable {
      *
      * @return the weight
      */
-    private static double inputWeight() {
+    private static Double inputWeight() {
         try {
             System.out.print("Введите вес: ");
-            double weight = Double.parseDouble(IO.get());
+            String in = IO.get();
+            if (in.equals(""))
+                return null;
+            double weight = Double.parseDouble(in);
             if (weight <= 0)
                 throw new Exception("Вес должен быть больше нуля");
             return weight;

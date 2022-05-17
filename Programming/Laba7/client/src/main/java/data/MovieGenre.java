@@ -40,7 +40,10 @@ public enum MovieGenre implements Serializable {
         }
 
         try {
-            int num = Integer.parseInt(IO.get());
+            String in = IO.get();
+            if (in.equals(""))
+                return null;
+            int num = Integer.parseInt(in);
             return MovieGenre.values()[num - 1];
         }
         catch (NumberFormatException e) {
