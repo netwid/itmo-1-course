@@ -4,6 +4,8 @@ import data.Movie;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ public class CollectionManager {
      */
     ZonedDateTime initTime = ZonedDateTime.now();
     DatabaseManager dm = DatabaseManager.getInstance();
+    ReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     /**
      * Info about collection.
@@ -40,13 +43,22 @@ public class CollectionManager {
      * @param movie the movie
      */
     public boolean add(Movie movie, String login) {
-        int id = dm.add(movie, login);
-        if (id > 0) {
-            movie.setId(id);
-            movies.add(movie);
-            return true;
+        if (lock.writeLock().tryLock()) {
+            try {
+                int id = dm.add(movie, login);
+                if (id > 0) {
+                    movie.setId(id);
+                    movies.add(movie);
+                    return true;
+                }
+                return false;
+            } finally {
+                lock.writeLock().unlock();
+            }
+        } else {
+            System.out.println("Запись уже идёт");
+            return false;
         }
-        return false;
     }
 
     /**
@@ -72,17 +84,26 @@ public class CollectionManager {
      * @return status
      */
     public boolean update(int id, Movie newMovie, String login) {
-        if (!dm.update(id, newMovie, login))
-            return false;
-        for (Movie movie : movies) {
-            if (movie.getId() == id) {
-                movies.remove(movie);
-                newMovie.setId(id);
-                movies.add(newMovie);
-                return true;
+        if (lock.writeLock().tryLock()) {
+            try {
+                if (!dm.update(id, newMovie, login))
+                    return false;
+                for (Movie movie : movies) {
+                    if (movie.getId() == id) {
+                        movies.remove(movie);
+                        newMovie.setId(id);
+                        movies.add(newMovie);
+                        return true;
+                    }
+                }
+                return false;
+            } finally {
+                lock.writeLock().unlock();
             }
+        } else {
+            System.out.println("Запись уже идёт");
+            return false;
         }
-        return false;
     }
 
     /**
@@ -92,15 +113,24 @@ public class CollectionManager {
      * @return status
      */
     public boolean removeById(int id, String login) {
-        if (!dm.removeById(id, login))
-            return false;
-        for (Movie movie : movies) {
-            if (movie.getId() == id) {
-                movies.remove(movie);
-                return true;
+        if (lock.writeLock().tryLock()) {
+            try {
+                if (!dm.removeById(id, login))
+                    return false;
+                for (Movie movie : movies) {
+                    if (movie.getId() == id) {
+                        movies.remove(movie);
+                        return true;
+                    }
+                }
+                return false;
+            } finally {
+                lock.writeLock().unlock();
             }
+        } else {
+            System.out.println("Запись уже идёт");
+            return false;
         }
-        return false;
     }
 
     /**
@@ -109,8 +139,16 @@ public class CollectionManager {
      * @param length the length
      */
     public void removeLower(int length, String login) {
-        if (dm.removeLower(length))
-            movies.removeIf(movie -> movie.getLength() < length);
+        if (lock.writeLock().tryLock()) {
+            try {
+                if (dm.removeLower(length))
+                    movies.removeIf(movie -> movie.getLength() < length);
+            } finally {
+                lock.writeLock().unlock();
+            }
+        } else {
+            System.out.println("Запись уже идёт");
+        }
     }
 
 

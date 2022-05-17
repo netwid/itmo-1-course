@@ -4,6 +4,10 @@ import data.Request;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * The type Main.
@@ -22,10 +26,15 @@ public class Main {
             invoker.execute(new Request("load", args, "", ""));
             System.out.print("> ");
 
+            ThreadPoolExecutor cachedPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
             while (true) {
-                Request request = Server.receive();
-                if (request != null) {
-                    invoker.execute(request);
+                if (cachedPool.getActiveCount() < 4) {
+                    cachedPool.execute(() -> {
+                        Request request = Server.receive();
+                        if (request != null) {
+                            invoker.execute(request);
+                        }
+                    });
                 }
             }
         }

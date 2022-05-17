@@ -10,6 +10,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 public class Server {
     private static final int port = 31337;
@@ -49,14 +52,21 @@ public class Server {
     }
 
     public static void send(SocketAddress addr, Response response) {
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             ObjectOutputStream os = new ObjectOutputStream(out)) {
-            os.writeObject(response);
-            dc.send(ByteBuffer.wrap(out.toByteArray()), addr);
-            logger.info("Ответ отправлен на " + addr.toString());
-        } catch (IOException e) {
-            System.out.println("Ошибка при отправке запроса на " + addr);
-        }
+        /* This is a specially single ForkJoIn */
+        ForkJoinPool pool = ForkJoinPool.commonPool();
+        pool.invoke(new RecursiveAction() {
+            @Override
+            protected void compute() {
+                try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                     ObjectOutputStream os = new ObjectOutputStream(out)) {
+                    os.writeObject(response);
+                    dc.send(ByteBuffer.wrap(out.toByteArray()), addr);
+                    logger.info("Ответ отправлен на " + addr.toString());
+                } catch (IOException e) {
+                    System.out.println("Ошибка при отправке запроса на " + addr);
+                }
+            }
+        });
     }
 
     public static Request receive() {
