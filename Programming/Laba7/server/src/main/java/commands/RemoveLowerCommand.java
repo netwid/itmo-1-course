@@ -23,7 +23,7 @@ public class RemoveLowerCommand implements Command {
     public void execute(Request request) {
         try {
             int length = Integer.parseInt(request.args[0]);
-            collectionManager.removeLower(length);
+            collectionManager.removeLower(length, request.login);
         }
         catch (IndexOutOfBoundsException e) {
             Server.print(request.client, "Не передана длина\n");

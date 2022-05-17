@@ -39,8 +39,8 @@ public class CollectionManager {
      *
      * @param movie the movie
      */
-    public boolean add(Movie movie) {
-        int id = dm.add(movie);
+    public boolean add(Movie movie, String login) {
+        int id = dm.add(movie, login);
         if (id > 0) {
             movie.setId(id);
             movies.add(movie);
@@ -71,8 +71,8 @@ public class CollectionManager {
      * @param newMovie the new movie
      * @return status
      */
-    public boolean update(int id, Movie newMovie) {
-        if (!dm.update(id, newMovie))
+    public boolean update(int id, Movie newMovie, String login) {
+        if (!dm.update(id, newMovie, login))
             return false;
         for (Movie movie : movies) {
             if (movie.getId() == id) {
@@ -91,8 +91,8 @@ public class CollectionManager {
      * @param id the id
      * @return status
      */
-    public boolean removeById(int id) {
-        if (!dm.removeById(id))
+    public boolean removeById(int id, String login) {
+        if (!dm.removeById(id, login))
             return false;
         for (Movie movie : movies) {
             if (movie.getId() == id) {
@@ -108,7 +108,7 @@ public class CollectionManager {
      *
      * @param length the length
      */
-    public void removeLower(int length) {
+    public void removeLower(int length, String login) {
         if (dm.removeLower(length))
             movies.removeIf(movie -> movie.getLength() < length);
     }

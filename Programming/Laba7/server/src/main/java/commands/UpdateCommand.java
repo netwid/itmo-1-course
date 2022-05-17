@@ -29,7 +29,7 @@ public class UpdateCommand implements Command {
                 return;
             }
             Movie movie = Movie.input();
-            if (this.collectionManager.update(id, movie))
+            if (this.collectionManager.update(id, movie, request.login))
                 Server.print(request.client, "Фильм обновлён\n");
             else
                 Server.print(request.client, "Фильм с данным id не найден\n");

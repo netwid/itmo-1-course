@@ -4,8 +4,6 @@ import data.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,8 @@ public class DatabaseManager {
                     "screenwriter_birthday TIMESTAMP," +
                     "screenwriter_height INTEGER NOT NULL," +
                     "screenwriter_weight DOUBLE PRECISION," +
-                    "screenwriter_passport_id VARCHAR(41) NOT NULL UNIQUE" +
+                    "screenwriter_passport_id VARCHAR(41) NOT NULL UNIQUE," +
+                    "owner_id INTEGER references \"user\"(user_id) ON DELETE SET NULL" +
                 ");"
             );
             ps.executeUpdate();
@@ -54,8 +53,6 @@ public class DatabaseManager {
         } catch (FileNotFoundException e) {
             System.out.println("Не найден файл db.txt для аутенфикации");
             System.exit(1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -93,17 +90,18 @@ public class DatabaseManager {
                 movies.add(movie);
             }
         } catch (SQLException e) {
-
+            System.out.println("Ошибка получения");
         }
         return movies;
     }
 
-    public int add(Movie movie) {
+    public int add(Movie movie, String login) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(name, coordinates_x, coordinates_y, " +
                 "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
-                "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
+                "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id, owner_id)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT user_id FROM user WHERE login = ?)) " +
+                "RETURNING movie_id");
             ps.setString(1, movie.getName());
             ps.setDouble(2, movie.getCoordinates().getX());
             ps.setInt(3, movie.getCoordinates().getY());
@@ -117,6 +115,7 @@ public class DatabaseManager {
             ps.setInt(11, movie.getScreenwriter().getHeight());
             ps.setDouble(12, movie.getScreenwriter().getWeight());
             ps.setString(13, movie.getScreenwriter().getPassportID());
+            ps.setString(14, login);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return rs.getInt("movie_id");
@@ -126,9 +125,9 @@ public class DatabaseManager {
         }
     }
 
-    public boolean update(int id, Movie movie) {
+    public boolean update(int id, Movie movie, String login) {
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(id, name, coordinates_x, coordinates_y, " +
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(movie_id, name, coordinates_x, coordinates_y, " +
                     "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
                     "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
@@ -164,7 +163,7 @@ public class DatabaseManager {
         }
     }
 
-    public boolean removeById(int id) {
+    public boolean removeById(int id, String login) {
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE movie_id = ?");
             ps.setInt(1, id);

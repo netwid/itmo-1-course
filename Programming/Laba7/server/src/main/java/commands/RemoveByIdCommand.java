@@ -22,7 +22,7 @@ public class RemoveByIdCommand implements Command {
     @Override
     public void execute(Request request) {
         try {
-            if (this.collectionManager.removeById(Integer.parseInt(request.args[0])))
+            if (this.collectionManager.removeById(Integer.parseInt(request.args[0]), request.login))
                 Server.print(request.client, "Фильм удалён\n");
             else
                 Server.print(request.client, "Фильм с данным id не найден\n");

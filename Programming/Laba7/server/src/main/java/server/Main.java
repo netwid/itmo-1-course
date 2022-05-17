@@ -27,17 +27,10 @@ public class Main {
                 if (request != null) {
                     invoker.execute(request);
                 }
-
-                if (System.in.available() > 0) {
-                    invoker.execute(new Request(new Scanner(System.in).nextLine(), new String[] {}, "", ""));
-                    System.out.print("> ");
-                }
             }
         }
         catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Не указан обязательный аргумент - файл");
-        } catch (IOException e) {
-            System.out.println("Ошибка буфера ввода");
         }
     }
 }

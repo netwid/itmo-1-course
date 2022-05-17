@@ -34,7 +34,7 @@ public class AddIfMaxCommand implements Command {
             Server.print(request.client, "К сожалению, в коллекции есть фильм с большим length\n");
         }
         else {
-            collectionManager.add(newMovie);
+            collectionManager.add(newMovie, request.login);
             Server.print(request.client, "Фильм добавлен\n");
         }
     }
