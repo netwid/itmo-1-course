@@ -32,7 +32,7 @@ public class UpdateCommand implements Command {
             if (this.collectionManager.update(id, movie, request.login))
                 Server.print(request.client, "Фильм обновлён\n");
             else
-                Server.print(request.client, "Фильм с данным id не найден\n");
+                Server.print(request.client, "Фильм с данным id не найден или у вас недостаточно прав\n");
         }
         catch (IndexOutOfBoundsException e) {
             Server.print(request.client, "Не указан атрибут id\n");

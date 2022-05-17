@@ -22,7 +22,7 @@ public class DatabaseManager {
             conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", username, password);
             PreparedStatement ps = conn.prepareStatement(
                 "CREATE TABLE IF NOT EXISTS \"user\" (" +
-                    "user_id SERIAL," +
+                    "user_id SERIAL PRIMARY KEY," +
                     "login VARCHAR(20) NOT NULL," +
                     "password VARCHAR(100) NOT NULL,"  +
                     "salt VARCHAR(10) NOT NULL" +
@@ -100,7 +100,7 @@ public class DatabaseManager {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(name, coordinates_x, coordinates_y, " +
                 "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
                 "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id, owner_id)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT user_id FROM user WHERE login = ?)) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT user_id FROM \"user\" WHERE login = ?)) " +
                 "RETURNING movie_id");
             ps.setString(1, movie.getName());
             ps.setDouble(2, movie.getCoordinates().getX());
@@ -223,7 +223,7 @@ public class DatabaseManager {
     private boolean checkRights(int movieId, String login) {
         try {
             PreparedStatement ps = conn.prepareStatement("SELECT * FROM movie WHERE movie_id = ? AND owner_id IN " +
-                    "(SELECT user_id FROM user WHERE login = ?)");
+                    "(SELECT user_id FROM \"user\" WHERE login = ?)");
             ps.setInt(1, movieId);
             ps.setString(2, login);
             ResultSet rs = ps.executeQuery();
