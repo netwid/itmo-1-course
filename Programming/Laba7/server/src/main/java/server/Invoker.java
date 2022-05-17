@@ -5,6 +5,8 @@ import data.Request;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * The type Invoker.
@@ -55,26 +57,30 @@ public class Invoker {
      * @param request request with data for command
      */
     public void execute(Request request) {
-        request.command = request.command.toLowerCase(Locale.ROOT);
-        try {
-            if (request.command.equals("register")) {
-                boolean result = AuthManager.register(request.login, request.password);
-                Server.print(request.client, result ? "Регистрация успешна" : "Error");
-                return;
-            }
-            if (request.command.equals("login")) {
-                boolean result = AuthManager.checkLogin(request.login, request.password);
-                Server.print(request.client, result ? "Аутенфицировано" : "Error");
-                return;
-            }
-            if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {
-                Server.print(request.client, "Требуется аутенфикация");
-                return;
-            }
-            this.commands.get(request.command).execute(request);
-        }
-        catch (NullPointerException e) {
-            Server.print(request.client, "Команда не найдена\n");
+        ThreadPoolExecutor cachedPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        if (cachedPool.getActiveCount() < 4) {
+            cachedPool.execute(() -> {
+                request.command = request.command.toLowerCase(Locale.ROOT);
+                try {
+                    if (request.command.equals("register")) {
+                        boolean result = AuthManager.register(request.login, request.password);
+                        Server.print(request.client, result ? "Регистрация успешна" : "Error");
+                        return;
+                    }
+                    if (request.command.equals("login")) {
+                        boolean result = AuthManager.checkLogin(request.login, request.password);
+                        Server.print(request.client, result ? "Аутенфицировано" : "Error");
+                        return;
+                    }
+                    if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {
+                        Server.print(request.client, "Требуется аутенфикация");
+                        return;
+                    }
+                    this.commands.get(request.command).execute(request);
+                } catch (NullPointerException e) {
+                    Server.print(request.client, "Команда не найдена\n");
+                }
+            });
         }
     }
 }
