@@ -9,15 +9,21 @@ public class Request implements Serializable {
     public String[] args;
     public Serializable object;
     public SocketAddress client;
+    public String login;
+    public String password;
 
-    public Request(String command, String[] args, Serializable object) {
+    public Request(String command, String[] args, String login, String password, Serializable object) {
         this.command = command;
         this.args = args;
         this.object = object;
+        this.login = login;
+        this.password = password;
     }
 
-    public Request(String command, String[] args) {
+    public Request(String command, String[] args, String login, String password) {
         this.command = command;
         this.args = args;
+        this.login = login;
+        this.password = password;
     }
 }

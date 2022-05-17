@@ -2,19 +2,27 @@ package server;
 
 import data.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class DatabaseManager {
     Connection conn;
+    private static DatabaseManager instance;
 
-    public DatabaseManager() {
+    private DatabaseManager() {
         try {
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", "s335084", "udt911");
+            Scanner auth = new Scanner(new FileReader("db.txt"));
+            String username = auth.nextLine().trim();
+            String password = auth.nextLine().trim();
+
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", username, password);
             PreparedStatement ps = conn.prepareStatement(
                 "CREATE TABLE IF NOT EXISTS \"user\" (" +
-                    "user_id SERIAL," +
+                    "user_id SERIAL PRIMARY KEY," +
                     "login VARCHAR(20) NOT NULL," +
                     "password VARCHAR(100) NOT NULL,"  +
                     "salt VARCHAR(10) NOT NULL" +
@@ -33,7 +41,8 @@ public class DatabaseManager {
                     "screenwriter_birthday TIMESTAMP," +
                     "screenwriter_height INTEGER NOT NULL," +
                     "screenwriter_weight DOUBLE PRECISION," +
-                    "screenwriter_passport_id VARCHAR(41) NOT NULL UNIQUE" +
+                    "screenwriter_passport_id VARCHAR(41) NOT NULL UNIQUE," +
+                    "owner_id INTEGER references \"user\"(user_id) ON DELETE SET NULL" +
                 ");"
             );
             ps.executeUpdate();
@@ -41,7 +50,16 @@ public class DatabaseManager {
             System.out.println(e.getMessage());
             System.out.println("Ошибка инициализации БД");
             System.exit(0);
+        } catch (FileNotFoundException e) {
+            System.out.println("Не найден файл db.txt для аутенфикации");
+            System.exit(1);
         }
+    }
+
+    public static DatabaseManager getInstance() {
+        if (instance == null)
+            instance = new DatabaseManager();
+        return instance;
     }
 
     public List<Movie> getAll() {
@@ -72,17 +90,18 @@ public class DatabaseManager {
                 movies.add(movie);
             }
         } catch (SQLException e) {
-
+            System.out.println("Ошибка получения");
         }
         return movies;
     }
 
-    public int add(Movie movie) {
+    public int add(Movie movie, String login) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(name, coordinates_x, coordinates_y, " +
                 "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
-                "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
+                "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id, owner_id)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT user_id FROM \"user\" WHERE login = ?)) " +
+                "RETURNING movie_id");
             ps.setString(1, movie.getName());
             ps.setDouble(2, movie.getCoordinates().getX());
             ps.setInt(3, movie.getCoordinates().getY());
@@ -96,8 +115,9 @@ public class DatabaseManager {
             ps.setInt(11, movie.getScreenwriter().getHeight());
             ps.setDouble(12, movie.getScreenwriter().getWeight());
             ps.setString(13, movie.getScreenwriter().getPassportID());
+            ps.setString(14, login);
             ResultSet rs = ps.executeQuery();
-            rs.first();
+            rs.next();
             return rs.getInt("movie_id");
         } catch (Exception e) {
             System.out.println("Ошибка добавления");
@@ -105,9 +125,12 @@ public class DatabaseManager {
         }
     }
 
-    public int update(int id, Movie movie) {
+    public boolean update(int id, Movie movie, String login) {
         try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(id, name, coordinates_x, coordinates_y, " +
+            if (!checkRights(movie.getId(), login)) {
+                return false;
+            }
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(movie_id, name, coordinates_x, coordinates_y, " +
                     "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
                     "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
@@ -127,10 +150,10 @@ public class DatabaseManager {
             ps.setString(14, movie.getScreenwriter().getPassportID());
             ResultSet rs = ps.executeQuery();
             rs.first();
-            return rs.getInt("movie_id");
+            return rs.getInt("movie_id") == id;
         } catch (Exception e) {
-            System.out.println("Ошибка добавления");
-            return 0;
+            System.out.println("Ошибка обновления");
+            return false;
         }
     }
 
@@ -143,8 +166,11 @@ public class DatabaseManager {
         }
     }
 
-    public boolean removeById(int id) {
+    public boolean removeById(int id, String login) {
         try {
+            if (!checkRights(id, login)) {
+                return false;
+            }
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE movie_id = ?");
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
@@ -158,6 +184,50 @@ public class DatabaseManager {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE length < ?");
             ps.setInt(1, length);
             return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean existsUser(String login, String password) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"user\" WHERE login = ? AND password = ?");
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean register(String login, String password) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"user\" WHERE login = ?");
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+
+            ps = conn.prepareStatement("INSERT INTO \"user\" (login, password, salt) VALUES (?, ?, ?)");
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ps.setString(3, "");
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    private boolean checkRights(int movieId, String login) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM movie WHERE movie_id = ? AND owner_id IN " +
+                    "(SELECT user_id FROM \"user\" WHERE login = ?)");
+            ps.setInt(1, movieId);
+            ps.setString(2, login);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
         } catch (SQLException e) {
             return false;
         }

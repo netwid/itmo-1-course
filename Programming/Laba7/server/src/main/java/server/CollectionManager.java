@@ -12,10 +12,6 @@ import java.util.stream.Collectors;
  */
 public class CollectionManager {
     /**
-     * The Last id.
-     */
-    int lastId = 1;
-    /**
      * The Movies.
      */
     HashSet<Movie> movies = new HashSet<>();
@@ -23,7 +19,7 @@ public class CollectionManager {
      * The Init time.
      */
     ZonedDateTime initTime = ZonedDateTime.now();
-    DatabaseManager dm = new DatabaseManager();
+    DatabaseManager dm = DatabaseManager.getInstance();
 
     /**
      * Info about collection.
@@ -43,12 +39,14 @@ public class CollectionManager {
      *
      * @param movie the movie
      */
-    public void add(Movie movie) {
-        int id = dm.add(movie);
+    public boolean add(Movie movie, String login) {
+        int id = dm.add(movie, login);
         if (id > 0) {
             movie.setId(id);
             movies.add(movie);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -73,7 +71,9 @@ public class CollectionManager {
      * @param newMovie the new movie
      * @return status
      */
-    public boolean update(int id, Movie newMovie) {
+    public boolean update(int id, Movie newMovie, String login) {
+        if (!dm.update(id, newMovie, login))
+            return false;
         for (Movie movie : movies) {
             if (movie.getId() == id) {
                 movies.remove(movie);
@@ -91,8 +91,8 @@ public class CollectionManager {
      * @param id the id
      * @return status
      */
-    public boolean removeById(int id) {
-        if (!dm.removeById(id))
+    public boolean removeById(int id, String login) {
+        if (!dm.removeById(id, login))
             return false;
         for (Movie movie : movies) {
             if (movie.getId() == id) {
@@ -108,7 +108,7 @@ public class CollectionManager {
      *
      * @param length the length
      */
-    public void removeLower(int length) {
+    public void removeLower(int length, String login) {
         if (dm.removeLower(length))
             movies.removeIf(movie -> movie.getLength() < length);
     }

@@ -34,7 +34,7 @@ public class AddIfMinCommand implements Command {
             Server.print(request.client, "К сожалению, в коллекции есть фильм с меньшим length\n");
         }
         else {
-            collectionManager.add(newMovie);
+            collectionManager.add(newMovie, request.login);
             Server.print(request.client, "Фильм добавлен");
         }
     }
