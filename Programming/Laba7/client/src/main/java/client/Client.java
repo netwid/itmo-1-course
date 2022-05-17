@@ -9,14 +9,18 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class Client {
-    private final byte[] ip = new byte[]{127, 0, 0, 1};
+    private static final byte[] ip = new byte[]{127, 0, 0, 1};
     private static final int port = 31337;
     private static final int receiveLimit = 1024 * 1024;
     private static DatagramSocket ds;
     private static DatagramPacket dp;
     private static InetAddress host;
 
-    public Client() {
+    static {
+        Client.init();
+    }
+
+    private static void init() {
         try {
             ds = new DatagramSocket();
             host = InetAddress.getByAddress(ip);
@@ -30,19 +34,19 @@ public class Client {
     }
 
     public static int getId() {
-        Client.sendCommand("get_id");
+        Client.sendCommand("get_id", "", "");
         Response response = Client.receive();
         return Integer.parseInt(response.toPrint);
     }
 
-    public static void sendCommand(String line) {
-        Client.sendCommandObject(line, null);
+    public static void sendCommand(String line, String login, String password) {
+        Client.sendCommandObject(line, login, password, null);
     }
 
-    public static void sendCommandObject(String line, Serializable obj) {
+    public static void sendCommandObject(String line, String login, String password, Serializable obj) {
         try {
             String[] words = line.trim().split("\\s+");
-            Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length), obj);
+            Request request = new Request(words[0], Arrays.copyOfRange(words, 1, words.length), login, password, obj);
 
             if (request.command.equals("exit")) {
                 System.exit(0);
@@ -94,7 +98,7 @@ public class Client {
     }
 
     public static boolean checkContainsPassport(String passportId) {
-        Client.sendCommand("check_passport " + passportId);
+        Client.sendCommand("check_passport " + passportId, "", "");
         Response response = Client.receive();
         return Boolean.parseBoolean(response.toPrint);
     }

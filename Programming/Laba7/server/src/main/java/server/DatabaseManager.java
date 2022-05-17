@@ -2,16 +2,26 @@ package server;
 
 import data.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class DatabaseManager {
     Connection conn;
+    private static DatabaseManager instance;
 
-    public DatabaseManager() {
+    private DatabaseManager() {
         try {
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", "s335084", "udt911");
+            Scanner auth = new Scanner(new FileReader("db.txt"));
+            String username = auth.nextLine().trim();
+            String password = auth.nextLine().trim();
+
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", username, password);
             PreparedStatement ps = conn.prepareStatement(
                 "CREATE TABLE IF NOT EXISTS \"user\" (" +
                     "user_id SERIAL," +
@@ -41,7 +51,18 @@ public class DatabaseManager {
             System.out.println(e.getMessage());
             System.out.println("Ошибка инициализации БД");
             System.exit(0);
+        } catch (FileNotFoundException e) {
+            System.out.println("Не найден файл db.txt для аутенфикации");
+            System.exit(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public static DatabaseManager getInstance() {
+        if (instance == null)
+            instance = new DatabaseManager();
+        return instance;
     }
 
     public List<Movie> getAll() {
@@ -97,7 +118,7 @@ public class DatabaseManager {
             ps.setDouble(12, movie.getScreenwriter().getWeight());
             ps.setString(13, movie.getScreenwriter().getPassportID());
             ResultSet rs = ps.executeQuery();
-            rs.first();
+            rs.next();
             return rs.getInt("movie_id");
         } catch (Exception e) {
             System.out.println("Ошибка добавления");
@@ -105,7 +126,7 @@ public class DatabaseManager {
         }
     }
 
-    public int update(int id, Movie movie) {
+    public boolean update(int id, Movie movie) {
         try {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(id, name, coordinates_x, coordinates_y, " +
                     "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
@@ -127,10 +148,10 @@ public class DatabaseManager {
             ps.setString(14, movie.getScreenwriter().getPassportID());
             ResultSet rs = ps.executeQuery();
             rs.first();
-            return rs.getInt("movie_id");
+            return rs.getInt("movie_id") == id;
         } catch (Exception e) {
-            System.out.println("Ошибка добавления");
-            return 0;
+            System.out.println("Ошибка обновления");
+            return false;
         }
     }
 
@@ -161,5 +182,37 @@ public class DatabaseManager {
         } catch (SQLException e) {
             return false;
         }
+    }
+
+    public boolean existsUser(String login, String password) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"user\" WHERE login = ? AND password = ?");
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean register(String login, String password) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"user\" WHERE login = ?");
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+
+            ps = conn.prepareStatement("INSERT INTO \"user\" (login, password, salt) VALUES (?, ?, ?)");
+            ps.setString(1, login);
+            ps.setString(2, password);
+            ps.setString(3, "");
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+
     }
 }

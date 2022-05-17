@@ -12,10 +12,6 @@ import java.util.stream.Collectors;
  */
 public class CollectionManager {
     /**
-     * The Last id.
-     */
-    int lastId = 1;
-    /**
      * The Movies.
      */
     HashSet<Movie> movies = new HashSet<>();
@@ -23,7 +19,7 @@ public class CollectionManager {
      * The Init time.
      */
     ZonedDateTime initTime = ZonedDateTime.now();
-    DatabaseManager dm = new DatabaseManager();
+    DatabaseManager dm = DatabaseManager.getInstance();
 
     /**
      * Info about collection.
@@ -43,12 +39,14 @@ public class CollectionManager {
      *
      * @param movie the movie
      */
-    public void add(Movie movie) {
+    public boolean add(Movie movie) {
         int id = dm.add(movie);
         if (id > 0) {
             movie.setId(id);
             movies.add(movie);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -74,6 +72,8 @@ public class CollectionManager {
      * @return status
      */
     public boolean update(int id, Movie newMovie) {
+        if (!dm.update(id, newMovie))
+            return false;
         for (Movie movie : movies) {
             if (movie.getId() == id) {
                 movies.remove(movie);

@@ -15,8 +15,7 @@ public class Invoker {
 
     /**
      * Initialize commands.
-     *  @param fileName          the file name
-     * @param collectionManager the collection manager
+     *  @param collectionManager the collection manager
      */
     public Invoker(CollectionManager collectionManager) {
         commands.put("load", new LoadCommand(collectionManager));
@@ -58,6 +57,20 @@ public class Invoker {
     public void execute(Request request) {
         request.command = request.command.toLowerCase(Locale.ROOT);
         try {
+            if (request.command.equals("register")) {
+                boolean result = AuthManager.register(request.login, request.password);
+                Server.print(request.client, result ? "Регистрация успешна" : "Error");
+                return;
+            }
+            if (request.command.equals("login")) {
+                boolean result = AuthManager.checkLogin(request.login, request.password);
+                Server.print(request.client, result ? "Аутенфицировано" : "Error");
+                return;
+            }
+            if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {
+                Server.print(request.client, "Требуется аутенфикация");
+                return;
+            }
             this.commands.get(request.command).execute(request);
         }
         catch (NullPointerException e) {
