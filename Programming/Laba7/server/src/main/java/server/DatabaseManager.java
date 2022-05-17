@@ -127,6 +127,9 @@ public class DatabaseManager {
 
     public boolean update(int id, Movie movie, String login) {
         try {
+            if (!checkRights(movie.getId(), login)) {
+                return false;
+            }
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(movie_id, name, coordinates_x, coordinates_y, " +
                     "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
                     "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
@@ -165,6 +168,9 @@ public class DatabaseManager {
 
     public boolean removeById(int id, String login) {
         try {
+            if (!checkRights(id, login)) {
+                return false;
+            }
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE movie_id = ?");
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
@@ -212,6 +218,18 @@ public class DatabaseManager {
         } catch (SQLException e) {
             return false;
         }
+    }
 
+    private boolean checkRights(int movieId, String login) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM movie WHERE movie_id = ? AND owner_id IN " +
+                    "(SELECT user_id FROM user WHERE login = ?)");
+            ps.setInt(1, movieId);
+            ps.setString(2, login);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }
