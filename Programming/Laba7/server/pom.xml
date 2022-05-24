@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <dependencies>
         <dependency>
             <groupId>com.laba7.client</groupId>
             <artifactId>Client</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.postgresql.Drive</groupId>
             <artifactId>pg-driver</artifactId>
             <version>42.3.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/postgresql-42.3.5.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -25,11 +25,18 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.laba6.server</groupId>
+    <groupId>com.laba7.server</groupId>
     <artifactId>Server</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
     <name>Server</name>
+
+    <repositories>
+        <repository>
+            <id>my</id>
+            <url>file://${basedir}</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -46,6 +53,18 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptor>install.xml</descriptor>
+                        </configuration>
+                    </execution>
+                </executions>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -64,20 +83,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.1</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>../client/src/main/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

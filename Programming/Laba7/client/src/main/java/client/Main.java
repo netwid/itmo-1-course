@@ -1,10 +1,8 @@
 package client;
 
 import data.Response;
-import server.Server;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {

@@ -19,7 +19,7 @@ public class DatabaseManager {
             String username = auth.nextLine().trim();
             String password = auth.nextLine().trim();
 
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5454/studs", username, password);
+            conn = DriverManager.getConnection("jdbc:postgresql://pg:5432/studs", username, password);
             PreparedStatement ps = conn.prepareStatement(
                 "CREATE TABLE IF NOT EXISTS \"user\" (" +
                     "user_id SERIAL PRIMARY KEY," +
