@@ -1,24 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="868.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
    <center>
-      <AnchorPane prefHeight="377.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="532.0" prefWidth="973.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTreeTableView layoutX="253.0" layoutY="32.0" prefHeight="438.0" prefWidth="848.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <columns>
+                  <TreeTableColumn prefWidth="54.0" text="ID" />
+                  <TreeTableColumn prefWidth="74.0" text="Name" />
+                  <TreeTableColumn prefWidth="160.0" text="Coordinates">
+                     <columns>
+                        <TreeTableColumn prefWidth="56.0" text="X" />
+                        <TreeTableColumn prefWidth="59.0" text="Y" />
+                     </columns>
+                  </TreeTableColumn>
+                  <TreeTableColumn prefWidth="91.0" text="Creation date" />
+                  <TreeTableColumn prefWidth="91.0" text="Oscars count" />
+                  <TreeTableColumn prefWidth="50.0" text="Length" />
+                  <TreeTableColumn prefWidth="57.0" text="Genre" />
+                  <TreeTableColumn prefWidth="77.0" text="MPAA Rating" />
+                  <TreeTableColumn prefWidth="333.0" text="Person">
+                     <columns>
+                        <TreeTableColumn prefWidth="75.0" text="Name" />
+                        <TreeTableColumn prefWidth="75.0" text="Birthday" />
+                        <TreeTableColumn prefWidth="75.0" text="Height" />
+                        <TreeTableColumn prefWidth="75.0" text="Weight" />
+                        <TreeTableColumn prefWidth="75.0" text="Passport ID" />
+                     </columns>
+                  </TreeTableColumn>
+               </columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </JFXTreeTableView>
+         </children>
+      </AnchorPane>
    </center>
    <top>
-      <GridPane styleClass="header" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="50.0" styleClass="header" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -26,14 +62,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MenuBar>
+            <MenuBar maxHeight="1.7976931348623157E308" GridPane.valignment="CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="Commands">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem fx:id="help" mnemonicParsing="false" text="Help" />
+                    <MenuItem fx:id="info" mnemonicParsing="false" text="Info" />
+                    <MenuItem fx:id="show" mnemonicParsing="false" text="Show" />
+                    <MenuItem fx:id="add" mnemonicParsing="false" text="Add" />
+                    <MenuItem mnemonicParsing="false" text="Update" />
+                    <MenuItem mnemonicParsing="false" text="Remove by ID" />
+                    <MenuItem fx:id="clear" mnemonicParsing="false" text="Clear" />
+                    <MenuItem fx:id="executeScript" mnemonicParsing="false" text="Execute script" />
+                    <MenuItem fx:id="addIfMax" mnemonicParsing="false" text="Add if max" />
+                    <MenuItem fx:id="addIfMin" mnemonicParsing="false" text="Add if min" />
+                    <MenuItem fx:id="removeLower" mnemonicParsing="false" text="Remove lower" />
+                    <MenuItem mnemonicParsing="false" text="Count less than MPAA rating" />
+                    <MenuItem mnemonicParsing="false" text="Filter greater than MPAA rating" />
+                    <MenuItem mnemonicParsing="false" text="Print field descending genre" />
+                    <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit" />
                   </items>
                 </Menu>
               </menus>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </MenuBar>
             <Label styleClass="title" text="Movie Manager" GridPane.halignment="CENTER" />
             <Label text="Login" GridPane.halignment="RIGHT">
@@ -41,12 +94,49 @@
                   <Insets right="100.0" />
                </GridPane.margin>
             </Label>
-            <SplitMenuButton mnemonicParsing="false" text="12" GridPane.halignment="RIGHT">
+            <MenuButton mnemonicParsing="false" text="123" GridPane.halignment="RIGHT">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@flags/russia.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@flags/canada.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@flags/norway.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@flags/poland.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
               </items>
-            </SplitMenuButton>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </MenuButton>
          </children>
       </GridPane>
    </top>

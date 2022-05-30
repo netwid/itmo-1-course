@@ -1,12 +1,7 @@
 package models;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import controllers.WindowManager;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class AuthModel {
     private static AuthModel instance;
@@ -23,34 +18,18 @@ public class AuthModel {
     }
 
     public void switchToRegister() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/registerScene.fxml"));
-//        loader.setResources(ResourceBundle.getBundle("client.resources.Locale", Locale.getDefault()));
-        Stage mainWindow = new Stage();
-        mainWindow.setMaximized(true);
-        mainWindow.setTitle("Registration");
-        try {
-            mainWindow.setScene(new Scene(loader.load()));
-        }
-        catch (IOException e) {
-
-        }
-        mainWindow.show();
+        WindowManager.setScene("Registration", "registerScene");
     }
 
     public void switchToLogin() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/loginScene.fxml"));
-//        loader.setResources(ResourceBundle.getBundle("client.resources.Locale", Locale.getDefault()));
-        Stage mainWindow = new Stage();
-        mainWindow.setMaximized(true);
-        mainWindow.setTitle("Login");
-        try {
-            mainWindow.setScene(new Scene(loader.load()));
-        }
-        catch (IOException e) {
+        WindowManager.setScene("Login", "loginScene");
+    }
 
-        }
-        mainWindow.show();
+    public void login(String login, String password) {
+        WindowManager.setScene("Manager", "main");
+    }
+
+    public void register(String login, String password) {
+        WindowManager.setScene("Manager", "main");
     }
 }

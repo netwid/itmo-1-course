@@ -24,9 +24,6 @@ public class RegisterController implements Initializable {
         });
 
         loginLink.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            System.out.println("Listener2 triggered");
-            Stage currentWindow = (Stage) loginLink.getScene().getWindow();
-            currentWindow.close();
             AuthModel.getInstance().switchToLogin();
         });
     }
