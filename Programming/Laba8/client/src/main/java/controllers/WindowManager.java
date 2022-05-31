@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 public class WindowManager {
     static Stage root;
-    static Stage popup;
+    static Stage popup = new Stage();
     static Alert alert;
     static Locale locale = new Locale("en", "CA");
     static final int BORDER_SIZE = 55;
@@ -41,14 +41,17 @@ public class WindowManager {
     }
 
     static void createPopup(String title, String fxml) {
+        popup.close();
+        popup = new Stage();
         ResourceBundle bundle = ResourceBundle.getBundle("locales/locale", locale);
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(WindowManager.class.getResource("/" + fxml + ".fxml"));
         loader.setResources(bundle);
-        Stage popup = new Stage();
+
         popup.initOwner(root);
 
-        popup.setTitle("Registration");
+        popup.setTitle(title);
         try {
             popup.setScene(new Scene(loader.load()));
         }

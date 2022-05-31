@@ -23,7 +23,7 @@
          <children>
             <JFXTreeTableView layoutX="253.0" layoutY="32.0" prefHeight="438.0" prefWidth="848.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <columns>
-                  <TreeTableColumn prefWidth="54.0" text="ID" />
+                  <TreeTableColumn fx:id="id" prefWidth="54.0" text="ID" />
                   <TreeTableColumn prefWidth="74.0" text="Name" />
                   <TreeTableColumn prefWidth="160.0" text="Coordinates">
                      <columns>
@@ -89,14 +89,14 @@
                </padding>
             </MenuBar>
             <Label styleClass="title" text="Movie Manager" GridPane.halignment="CENTER" />
-            <Label text="Login" GridPane.halignment="RIGHT">
+            <Label fx:id="login" text="Login" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="100.0" />
                </GridPane.margin>
             </Label>
-            <MenuButton mnemonicParsing="false" text="123" GridPane.halignment="RIGHT">
+            <MenuButton mnemonicParsing="false" GridPane.halignment="RIGHT">
               <items>
-                <MenuItem mnemonicParsing="false">
+                <MenuItem fx:id="russiaLang" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -105,7 +105,7 @@
                         </ImageView>
                      </graphic>
                   </MenuItem>
-                <MenuItem mnemonicParsing="false">
+                <MenuItem fx:id="canadaLang" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -114,7 +114,7 @@
                         </ImageView>
                      </graphic>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false">
+                  <MenuItem fx:id="norwayLang" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -123,7 +123,7 @@
                         </ImageView>
                      </graphic>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false">
+                  <MenuItem fx:id="polandLang" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -136,6 +136,13 @@
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
+               <graphic>
+                  <ImageView fx:id="chosenLang" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@flags/canada.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </MenuButton>
          </children>
       </GridPane>

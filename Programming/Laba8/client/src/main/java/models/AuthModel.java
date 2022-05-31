@@ -5,6 +5,8 @@ import controllers.WindowManager;
 
 public class AuthModel {
     private static AuthModel instance;
+    private static String login;
+    private static String password;
 
     private AuthModel() {
 
@@ -26,10 +28,18 @@ public class AuthModel {
     }
 
     public void login(String login, String password) {
+        AuthModel.login = login;
+        AuthModel.password = password;
         WindowManager.setScene("Manager", "main");
     }
 
     public void register(String login, String password) {
+        AuthModel.login = login;
+        AuthModel.password = password;
         WindowManager.setScene("Manager", "main");
+    }
+
+    public String getLogin() {
+        return AuthModel.login;
     }
 }
