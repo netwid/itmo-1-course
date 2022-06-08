@@ -24,25 +24,25 @@
             <JFXTreeTableView layoutX="253.0" layoutY="32.0" prefHeight="438.0" prefWidth="848.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <columns>
                   <TreeTableColumn fx:id="id" prefWidth="54.0" text="ID" />
-                  <TreeTableColumn prefWidth="74.0" text="Name" />
-                  <TreeTableColumn prefWidth="160.0" text="Coordinates">
+                  <TreeTableColumn prefWidth="74.0" text="%name" />
+                  <TreeTableColumn prefWidth="160.0" text="%coordinates">
                      <columns>
                         <TreeTableColumn prefWidth="56.0" text="X" />
                         <TreeTableColumn prefWidth="59.0" text="Y" />
                      </columns>
                   </TreeTableColumn>
-                  <TreeTableColumn prefWidth="91.0" text="Creation date" />
-                  <TreeTableColumn prefWidth="91.0" text="Oscars count" />
-                  <TreeTableColumn prefWidth="50.0" text="Length" />
-                  <TreeTableColumn prefWidth="57.0" text="Genre" />
-                  <TreeTableColumn prefWidth="77.0" text="MPAA Rating" />
-                  <TreeTableColumn prefWidth="333.0" text="Person">
+                  <TreeTableColumn prefWidth="91.0" text="%creationDate" />
+                  <TreeTableColumn prefWidth="91.0" text="%oscarsCount" />
+                  <TreeTableColumn prefWidth="50.0" text="%length" />
+                  <TreeTableColumn prefWidth="57.0" text="%genre" />
+                  <TreeTableColumn prefWidth="77.0" text="%MPAARating" />
+                  <TreeTableColumn prefWidth="333.0" text="%screenwriter">
                      <columns>
-                        <TreeTableColumn prefWidth="75.0" text="Name" />
-                        <TreeTableColumn prefWidth="75.0" text="Birthday" />
-                        <TreeTableColumn prefWidth="75.0" text="Height" />
-                        <TreeTableColumn prefWidth="75.0" text="Weight" />
-                        <TreeTableColumn prefWidth="75.0" text="Passport ID" />
+                        <TreeTableColumn prefWidth="75.0" text="%name" />
+                        <TreeTableColumn prefWidth="75.0" text="%birthday" />
+                        <TreeTableColumn prefWidth="75.0" text="%height" />
+                        <TreeTableColumn prefWidth="75.0" text="%weight" />
+                        <TreeTableColumn prefWidth="75.0" text="%passportID" />
                      </columns>
                   </TreeTableColumn>
                </columns>
@@ -100,7 +100,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@flags/russia.png" />
+                              <Image url="@flags/ru_RU.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -109,7 +109,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@flags/canada.png" />
+                              <Image url="@flags/en_CA.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -118,7 +118,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@flags/norway.png" />
+                              <Image url="@flags/nb_NO.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -127,7 +127,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@flags/poland.png" />
+                              <Image url="@flags/pl_PL.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -139,7 +139,7 @@
                <graphic>
                   <ImageView fx:id="chosenLang" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@flags/canada.png" />
+                        <Image url="@flags/en_CA.png" />
                      </image>
                   </ImageView>
                </graphic>

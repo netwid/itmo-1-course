@@ -1,6 +1,9 @@
 package models;
 
-import controllers.WindowManager;
+
+import client.Client;
+import client.WindowManager;
+import data.Response;
 
 
 public class AuthModel {
@@ -28,18 +31,34 @@ public class AuthModel {
     }
 
     public void login(String login, String password) {
+        Client.sendCommand("login", login, password);
+        Response response = Client.receive();
+        if (response.success == false) {
+            System.out.println(response.message);
+            return;
+        }
         AuthModel.login = login;
         AuthModel.password = password;
         WindowManager.setScene("Manager", "main");
     }
 
     public void register(String login, String password) {
+        Client.sendCommand("register", login, password);
+        Response response = Client.receive();
+        if (response.success == false) {
+            System.out.println(response.message);
+            return;
+        }
         AuthModel.login = login;
         AuthModel.password = password;
         WindowManager.setScene("Manager", "main");
     }
 
     public String getLogin() {
-        return AuthModel.login;
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -1,23 +1,19 @@
 package controllers;
 
+import client.Client;
+import client.WindowManager;
 import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import data.Coordinates;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.AuthModel;
 import models.Movie;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -51,25 +47,32 @@ public class MainController implements Initializable {
             System.exit(0);
         });
 
+        Client.sendCommand("show");
+        Client.receive();
+        Client.sendCommandObject("show", new Coordinates(0, 0));
+        System.out.println(Client.receive().object);
+
         login.setText(AuthModel.getInstance().getLogin());
 
+        chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/" + WindowManager.getLocale() + ".png")));
+
         russiaLang.setOnAction(event -> {
-            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/russia.png")));
+            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/ru_RU.png")));
             WindowManager.changeLocale(new Locale("ru", "RU"));
         });
 
         canadaLang.setOnAction(event -> {
-            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/canada.png")));
+            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/en_CA.png")));
             WindowManager.changeLocale(new Locale("en", "CA"));
         });
 
         norwayLang.setOnAction(event -> {
-            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/norway.png")));
+            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/nb_NO.png")));
             WindowManager.changeLocale(new Locale("nb", "NO"));
         });
 
         polandLang.setOnAction(event -> {
-            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/poland.png")));
+            chosenLang.setImage(new Image(getClass().getResourceAsStream("/flags/pl_PL.png")));
             WindowManager.changeLocale(new Locale("pl", "PL"));
         });
 
