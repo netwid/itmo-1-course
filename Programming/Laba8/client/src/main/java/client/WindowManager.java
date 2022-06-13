@@ -78,7 +78,7 @@ public class WindowManager {
             WindowManager.root.setScene(new Scene(loader.load(), screenSize.getWidth(), screenSize.getHeight() - BORDER_SIZE));
         }
         catch (IOException e) {
-
+            System.out.println(e.getMessage());
         }
     }
 

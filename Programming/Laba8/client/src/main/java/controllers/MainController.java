@@ -2,40 +2,73 @@ package controllers;
 
 import client.Client;
 import client.WindowManager;
-import com.jfoenix.controls.JFXTreeTableView;
 import data.Coordinates;
+import data.Movie;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.AuthModel;
-import models.Movie;
+import models.MovieTable;
 
 import java.net.URL;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-    @FXML private JFXTreeTableView<Movie> movies;
-    @FXML private MenuItem help;
-    @FXML private MenuItem info;
-    @FXML private MenuItem show;
-    @FXML private MenuItem add;
-    @FXML private MenuItem clear;
-    @FXML private MenuItem executeScript;
-    @FXML private MenuItem addIfMax;
-    @FXML private MenuItem addIfMin;
-    @FXML private MenuItem removeLower;
-    @FXML private MenuItem exit;
-    @FXML private Label login;
-    @FXML private MenuItem russiaLang;
-    @FXML private MenuItem canadaLang;
-    @FXML private MenuItem norwayLang;
-    @FXML private MenuItem polandLang;
-    @FXML private ImageView chosenLang;
-    @FXML private TreeTableColumn<Movie, Integer> id;
+    @FXML public MenuItem help;
+    @FXML public MenuItem info;
+    @FXML public MenuItem show;
+    @FXML public MenuItem add;
+    @FXML public MenuItem clear;
+    @FXML public MenuItem executeScript;
+    @FXML public MenuItem addIfMax;
+    @FXML public MenuItem addIfMin;
+    @FXML public MenuItem removeLower;
+    @FXML public MenuItem exit;
+    @FXML public Label login;
+    @FXML public MenuItem russiaLang;
+    @FXML public MenuItem canadaLang;
+    @FXML public MenuItem norwayLang;
+    @FXML public MenuItem polandLang;
+    @FXML public ImageView chosenLang;
+    @FXML public TableView<MovieTable> movies;
+    @FXML public TableColumn<MovieTable, Integer> id;
+    @FXML public TableColumn<MovieTable, String> name;
+    @FXML public TableColumn<MovieTable, Double> x;
+    @FXML public TableColumn<MovieTable, Integer> y;
+    @FXML public TableColumn<MovieTable, String> creationDate;
+    @FXML public TableColumn<MovieTable, Long> oscarsCount;
+    @FXML public TableColumn<MovieTable, Integer> length;
+    @FXML public TableColumn<MovieTable, String> genre;
+    @FXML public TableColumn<MovieTable, String> mpaaRating;
+    @FXML public TableColumn<MovieTable, String> screenwriterName;
+    @FXML public TableColumn<MovieTable, String> birthday;
+    @FXML public TableColumn<MovieTable, Integer> height;
+    @FXML public TableColumn<MovieTable, Double> weight;
+    @FXML public TableColumn<MovieTable, String> passportID;
+
+    public ObservableList<MovieTable> masterData = FXCollections.observableArrayList();
+    public ObservableList<MovieTable> filteredData = FXCollections.observableArrayList();
+
+    public MainController() {
+        Client.sendCommandObject("show", new Coordinates(0, 0));
+
+        LinkedHashSet<Movie> movies = (LinkedHashSet<Movie>) Client.receive().object;
+        if (movies != null) {
+            movies.forEach(value -> masterData.add(new MovieTable(value.getId(), value.getName(),
+                    value.getCoordinates().getX(), value.getCoordinates().getY(),
+                    value.getCreationDate(), value.getOscarsCount(), value.getLength(),
+                    value.getGenre(), value.getMpaaRating().name(), value.getScreenwriter().getName(),
+                    value.getScreenwriter().getBirthday(), value.getScreenwriter().getHeight(),
+                    value.getScreenwriter().getWeight(), value.getScreenwriter().getPassportID())));
+        }
+    }
 
 
     @Override
@@ -46,11 +79,6 @@ public class MainController implements Initializable {
             Platform.exit();
             System.exit(0);
         });
-
-        Client.sendCommand("show");
-        Client.receive();
-        Client.sendCommandObject("show", new Coordinates(0, 0));
-        System.out.println(Client.receive().object);
 
         login.setText(AuthModel.getInstance().getLogin());
 
@@ -76,9 +104,21 @@ public class MainController implements Initializable {
             WindowManager.changeLocale(new Locale("pl", "PL"));
         });
 
-//        id.setCellValueFactory(new TreeItemPropertyValueFactory<>("id"));
-//
-//        TreeItem<Movie> root = new TreeItem<>(new Movie(1));
-//        this.movies.setRoot(root);
+        id.setCellValueFactory(cellData -> cellData.getValue().id.asObject());
+        name.setCellValueFactory(cellData -> cellData.getValue().name);
+        x.setCellValueFactory(cellData -> cellData.getValue().x.asObject());
+        y.setCellValueFactory(cellData -> cellData.getValue().y.asObject());
+        creationDate.setCellValueFactory(cellData -> cellData.getValue().creationDate);
+        oscarsCount.setCellValueFactory(cellData -> cellData.getValue().oscarsCount.asObject());
+        length.setCellValueFactory(cellData -> cellData.getValue().length.asObject());
+        genre.setCellValueFactory(cellData -> cellData.getValue().genre);
+        mpaaRating.setCellValueFactory(cellData -> cellData.getValue().mpaaRating);
+        screenwriterName.setCellValueFactory(cellData -> cellData.getValue().screenwriterName);
+        birthday.setCellValueFactory(cellData -> cellData.getValue().birthday);
+        height.setCellValueFactory(cellData -> cellData.getValue().height.asObject());
+        weight.setCellValueFactory(cellData -> cellData.getValue().weight.asObject());
+        passportID.setCellValueFactory(cellData -> cellData.getValue().passportID);
+
+        movies.setItems(masterData);
     }
 }

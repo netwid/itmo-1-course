@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,35 +20,35 @@
    <center>
       <AnchorPane prefHeight="532.0" prefWidth="973.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXTreeTableView layoutX="253.0" layoutY="32.0" prefHeight="438.0" prefWidth="848.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-               <columns>
-                  <TreeTableColumn fx:id="id" prefWidth="54.0" text="ID" />
-                  <TreeTableColumn prefWidth="74.0" text="%name" />
-                  <TreeTableColumn prefWidth="160.0" text="%coordinates">
+            <TableView fx:id="movies" prefHeight="200.0" prefWidth="677.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+              <columns>
+                <TableColumn fx:id="id" prefWidth="59.0" text="ID" />
+                <TableColumn fx:id="name" prefWidth="69.0" text="%name" />
+                  <TableColumn prefWidth="129.0" text="%coordinates">
                      <columns>
-                        <TreeTableColumn prefWidth="56.0" text="X" />
-                        <TreeTableColumn prefWidth="59.0" text="Y" />
+                        <TableColumn fx:id="x" prefWidth="60.0" text="X" />
+                        <TableColumn fx:id="y" prefWidth="56.0" text="Y" />
                      </columns>
-                  </TreeTableColumn>
-                  <TreeTableColumn prefWidth="91.0" text="%creationDate" />
-                  <TreeTableColumn prefWidth="91.0" text="%oscarsCount" />
-                  <TreeTableColumn prefWidth="50.0" text="%length" />
-                  <TreeTableColumn prefWidth="57.0" text="%genre" />
-                  <TreeTableColumn prefWidth="77.0" text="%MPAARating" />
-                  <TreeTableColumn prefWidth="333.0" text="%screenwriter">
+                  </TableColumn>
+                  <TableColumn fx:id="creationDate" prefWidth="96.0" text="%creationDate" />
+                  <TableColumn fx:id="oscarsCount" prefWidth="75.0" text="%oscarsCount" />
+                  <TableColumn fx:id="length" prefWidth="75.0" text="%length" />
+                  <TableColumn fx:id="genre" prefWidth="75.0" text="%genre" />
+                  <TableColumn fx:id="mpaaRating" minWidth="0.0" prefWidth="73.0" text="%MPAARating" />
+                  <TableColumn prefWidth="377.0" text="%screenwriter">
                      <columns>
-                        <TreeTableColumn prefWidth="75.0" text="%name" />
-                        <TreeTableColumn prefWidth="75.0" text="%birthday" />
-                        <TreeTableColumn prefWidth="75.0" text="%height" />
-                        <TreeTableColumn prefWidth="75.0" text="%weight" />
-                        <TreeTableColumn prefWidth="75.0" text="%passportID" />
+                        <TableColumn fx:id="screenwriterName" prefWidth="62.0" text="%name" />
+                        <TableColumn fx:id="birthday" prefWidth="64.0" text="%birthday" />
+                        <TableColumn fx:id="height" prefWidth="99.0" text="%height" />
+                        <TableColumn fx:id="weight" prefWidth="75.0" text="%weight" />
+                        <TableColumn fx:id="passportID" prefWidth="75.0" text="%passportID" />
                      </columns>
-                  </TreeTableColumn>
-               </columns>
+                  </TableColumn>
+              </columns>
                <columnResizePolicy>
-                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
-            </JFXTreeTableView>
+            </TableView>
          </children>
       </AnchorPane>
    </center>
