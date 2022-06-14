@@ -7,11 +7,14 @@ import data.Movie;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import models.AuthModel;
 import models.MovieTable;
 
@@ -120,5 +123,14 @@ public class MainController implements Initializable {
         passportID.setCellValueFactory(cellData -> cellData.getValue().passportID);
 
         movies.setItems(masterData);
+
+        movies.setOnMouseClicked(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    WindowManager.selectedMovie = movies.getSelectionModel().getSelectedItem();
+                    WindowManager.createPopup("Update", "update");
+                }
+            }
+        });
     }
 }

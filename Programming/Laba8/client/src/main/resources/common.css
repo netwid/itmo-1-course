@@ -1,0 +1,11 @@
+.button {
+    -fx-background-radius: 35px;
+    -fx-border-radius: 35px;
+    -fx-background-color: #5a5a5a;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -jfx-button-type: FLAT;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 35px;
+}

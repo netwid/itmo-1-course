@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import models.MovieTable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,6 +56,7 @@ public class WindowManager {
     private static String lastFxml;
     private static Alert alert;
     private static Locale locale = new Locale("en", "CA");
+    public static MovieTable selectedMovie;
     private static final int BORDER_SIZE = 55;
 
     public static void setRoot(Stage root) {
