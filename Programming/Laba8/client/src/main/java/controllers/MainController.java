@@ -60,11 +60,12 @@ public class MainController implements Initializable {
     public ObservableList<MovieTable> filteredData = FXCollections.observableArrayList();
 
     public MainController() {
-        Client.sendCommandObject("show", new Coordinates(0, 0));
-
-        LinkedHashSet<Movie> movies = (LinkedHashSet<Movie>) Client.receive().object;
-        if (movies != null) {
-            movies.forEach(value -> masterData.add(new MovieTable(value.getId(), value.getName(),
+        if (WindowManager.movies == null) {
+            Client.sendCommandObject("show", new Coordinates(0, 0));
+            WindowManager.movies = (LinkedHashSet<Movie>) Client.receive().object;
+        }
+        if (WindowManager.movies != null) {
+            WindowManager.movies.forEach(value -> masterData.add(new MovieTable(value.getId(), value.getName(),
                     value.getCoordinates().getX(), value.getCoordinates().getY(),
                     value.getCreationDate(), value.getOscarsCount(), value.getLength(),
                     value.getGenre(), value.getMpaaRating().name(), value.getScreenwriter().getName(),

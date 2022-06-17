@@ -251,4 +251,17 @@ public class DatabaseManager {
             return false;
         }
     }
+
+    public int getId(String login) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE login = ?");
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+                return rs.getInt("user_id");
+            return -1;
+        } catch (SQLException e) {
+            return -1;
+        }
+    }
 }

@@ -64,12 +64,20 @@ public class Invoker {
                 try {
                     if (request.command.equals("register")) {
                         boolean result = AuthManager.register(request.login, request.password);
-                        Server.print(request.client, result ? "Регистрация успешна" : "Error");
+                        if (result) {
+                            Server.print(request.client, String.valueOf(DatabaseManager.getInstance().getId(request.login)));
+                        } else {
+                            Server.error(request.client, "Регистрация не удалась");
+                        }
                         return;
                     }
                     if (request.command.equals("login")) {
                         boolean result = AuthManager.checkLogin(request.login, request.password);
-                        Server.print(request.client, result ? "Аутенфицировано" : "Error");
+                        if (result) {
+                            Server.print(request.client, String.valueOf(DatabaseManager.getInstance().getId(request.login)));
+                        } else {
+                            Server.error(request.client, "Неверные данные");
+                        }
                         return;
                     }
                     if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {

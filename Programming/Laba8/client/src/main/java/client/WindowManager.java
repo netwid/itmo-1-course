@@ -111,10 +111,6 @@ public class WindowManager {
         popup.close();
     }
 
-    public static void createMessage() {
-
-    }
-
     public static void changeLocale(Locale locale) {
         WindowManager.locale = locale;
         setScene(lastTitle, lastFxml);
@@ -130,5 +126,10 @@ public class WindowManager {
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.setContentText(text);
         alert.show();
+    }
+
+    public static void updateCollection(LinkedHashSet<Movie> movies) {
+        WindowManager.movies = movies;
+        setScene(lastTitle, lastFxml);
     }
 }

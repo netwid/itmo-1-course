@@ -4,28 +4,33 @@ import client.Client;
 import client.WindowManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import data.Coordinates;
 import data.Movie;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
-public class RemoveLower implements Initializable {
+public class ShowController implements Initializable {
     @FXML
-    JFXTextField length;
+    JFXTextField x;
 
     @FXML
-    JFXButton remove;
+    JFXTextField y;
+
+    @FXML
+    JFXButton show;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        remove.setOnAction(event -> {
+        show.setOnAction(event -> {
             try {
-                int length_ = Movie.inputLength(length.getText());
-                Client.sendCommand("remove_lower " + length_);
+                double x_ = Coordinates.inputX(x.getText());
+                int y_ = Coordinates.inputY(y.getText());
+                Client.sendCommandObject("show", new Coordinates(x_, y_));
                 WindowManager.updateCollection((LinkedHashSet<Movie>) Client.receive().object);
             } catch (Exception e) {
 

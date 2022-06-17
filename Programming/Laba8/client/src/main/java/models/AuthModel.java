@@ -34,7 +34,7 @@ public class AuthModel {
         Client.sendCommand("login", login, password);
         Response response = Client.receive();
         if (response.success == false) {
-            System.out.println(response.message);
+            WindowManager.alert(response.message);
             return;
         }
         AuthModel.login = login;
@@ -46,7 +46,7 @@ public class AuthModel {
         Client.sendCommand("register", login, password);
         Response response = Client.receive();
         if (response.success == false) {
-            System.out.println(response.message);
+            WindowManager.alert(response.message);
             return;
         }
         AuthModel.login = login;
