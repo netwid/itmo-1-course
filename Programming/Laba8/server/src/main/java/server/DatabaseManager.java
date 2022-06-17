@@ -140,10 +140,11 @@ public class DatabaseManager {
             if (!checkRights(movie.getId(), login)) {
                 return false;
             }
+            removeById(id, login);
             PreparedStatement ps = conn.prepareStatement("INSERT INTO movie(movie_id, name, coordinates_x, coordinates_y, " +
                     "creation_date, oscars_count, length, movie_genre, mpaa_rating, screenwriter_name," +
-                    "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id)" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING movie_id");
+                    "screenwriter_birthday, screenwriter_height, screenwriter_weight, screenwriter_passport_id, owner_id)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT user_id FROM \"user\" WHERE login = ?))");
             ps.setInt(1, id);
             ps.setString(2, movie.getName());
             ps.setDouble(3, movie.getCoordinates().getX());
@@ -167,9 +168,8 @@ public class DatabaseManager {
             else
                 ps.setNull(13, java.sql.Types.NULL);
             ps.setString(14, movie.getScreenwriter().getPassportID());
-            ResultSet rs = ps.executeQuery();
-            rs.first();
-            return rs.getInt("movie_id") == id;
+            ps.setString(15, login);
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             System.out.println("Ошибка обновления");
             return false;

@@ -1,5 +1,6 @@
 package client;
 
+import data.Coordinates;
 import data.Movie;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -126,6 +127,11 @@ public class WindowManager {
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.setContentText(text);
         alert.show();
+    }
+
+    public static LinkedHashSet<Movie> getCollection(double x, int y) {
+        Client.sendCommandObject("show", new Coordinates(x, y));
+        return (LinkedHashSet<Movie>) Client.receive().object;
     }
 
     public static void updateCollection(LinkedHashSet<Movie> movies) {

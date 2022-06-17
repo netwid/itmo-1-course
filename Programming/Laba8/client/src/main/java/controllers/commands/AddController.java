@@ -74,7 +74,12 @@ public class AddController implements Initializable {
                         mpaa, new Person(screenwriterName_, birthday, height_, weight_, passportID_));
 
                 Client.sendCommandObject(WindowManager.addType, movie);
-                WindowManager.alert(Client.receive().message.equals("Success") ? "Элемент добавлен" : "Ошибка добавления");
+                Response response = Client.receive();
+                if (response.success) {
+                    WindowManager.updateCollection(WindowManager.getCollection(0, 0));
+                } else {
+                    WindowManager.alert("Ошибка добавления");
+                }
             } catch (Exception e) {
 
             }

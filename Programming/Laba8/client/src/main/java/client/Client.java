@@ -94,6 +94,7 @@ public class Client {
             if (count == 5) {
                 Response response = new Response();
                 response.message = "Сервер не ответил\n";
+                WindowManager.alert("Сервер не ответил");
                 return response;
             }
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buf.array()));

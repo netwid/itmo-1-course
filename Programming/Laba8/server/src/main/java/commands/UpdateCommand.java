@@ -28,11 +28,11 @@ public class UpdateCommand implements Command {
                 Server.print(request.client, "Данного id нет в коллекции\n");
                 return;
             }
-//            Movie movie = Movie.input();
-//            if (this.collectionManager.update(id, movie, request.login))
-//                Server.print(request.client, "Фильм обновлён\n");
-//            else
-//                Server.print(request.client, "Фильм с данным id не найден или у вас недостаточно прав\n");
+            Movie movie = (Movie) request.object;
+            if (this.collectionManager.update(id, movie, request.login))
+                Server.print(request.client, "Фильм обновлён\n");
+            else
+                Server.error(request.client, "Фильм с данным id не найден или у вас недостаточно прав\n");
         }
         catch (IndexOutOfBoundsException e) {
             Server.print(request.client, "Не указан атрибут id\n");
