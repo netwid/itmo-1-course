@@ -60,6 +60,7 @@ public class WindowManager {
     public static LinkedHashSet<Movie> movies;
     public static MovieTable selectedMovie;
     public static String addType = "add";
+    public static Scene scene;
     private static final int BORDER_SIZE = 55;
 
     public static void setRoot(Stage root) {
@@ -80,7 +81,8 @@ public class WindowManager {
         Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
 
         try {
-            WindowManager.root.setScene(new Scene(loader.load(), screenSize.getWidth(), screenSize.getHeight() - BORDER_SIZE));
+            scene = new Scene(loader.load(), screenSize.getWidth(), screenSize.getHeight() - BORDER_SIZE);
+            WindowManager.root.setScene(scene);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -100,7 +102,8 @@ public class WindowManager {
 
         popup.setTitle(title);
         try {
-            popup.setScene(new Scene(loader.load()));
+            scene = new Scene(loader.load());
+            popup.setScene(scene);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -127,6 +130,14 @@ public class WindowManager {
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.setContentText(text);
         alert.show();
+    }
+
+    public static Optional<ButtonType> confirm(String text) {
+        alert.close();
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setContentText(text);
+        return alert.showAndWait();
     }
 
     public static LinkedHashSet<Movie> getCollection(double x, int y) {

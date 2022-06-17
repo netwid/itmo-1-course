@@ -166,6 +166,11 @@ public class Movie implements Serializable {
         this.id = id;
     }
 
+    public Movie changeCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "data.Movie{" +

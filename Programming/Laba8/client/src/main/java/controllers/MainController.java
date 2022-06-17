@@ -94,7 +94,7 @@ public class MainController implements Initializable {
             WindowManager.addType = "add_if_min";
             WindowManager.createPopup("Add", "commands/add");
         });
-        removeLower.setOnAction(event -> WindowManager.createPopup("Remove lowe", "commands/removeLower"));
+        removeLower.setOnAction(event -> WindowManager.createPopup("Remove lower", "commands/removeLower"));
         exit.setOnAction(event -> {
             Platform.exit();
             System.exit(0);
