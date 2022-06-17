@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.commands.InfoController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="244.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.commands.InfoController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="148.0" layoutY="41.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="%info" />
+            <Label text="%infoMsg" />
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
