@@ -2,6 +2,7 @@ package controllers;
 
 import client.Client;
 import client.WindowManager;
+import com.jfoenix.controls.JFXButton;
 import data.Coordinates;
 import data.Movie;
 import javafx.application.Platform;
@@ -24,6 +25,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
+    @FXML public JFXButton visualization;
     @FXML public MenuItem help;
     @FXML public MenuItem info;
     @FXML public MenuItem show;
@@ -72,8 +74,6 @@ public class MainController implements Initializable {
                     value.getScreenwriter().getWeight(), value.getScreenwriter().getPassportID())));
         }
     }
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         help.setOnAction(event -> WindowManager.createPopup("Help", "commands/help"));
@@ -82,6 +82,8 @@ public class MainController implements Initializable {
             Platform.exit();
             System.exit(0);
         });
+
+        visualization.setOnAction(event -> WindowManager.setScene("Visualization", "visualization"));
 
         login.setText(AuthModel.getInstance().getLogin());
 

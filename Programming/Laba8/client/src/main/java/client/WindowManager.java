@@ -1,5 +1,6 @@
 package client;
 
+import data.Movie;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -13,9 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.util.*;
 
 class UTF8Control extends ResourceBundle.Control {
     public ResourceBundle newBundle
@@ -56,6 +55,7 @@ public class WindowManager {
     private static String lastFxml;
     private static Alert alert;
     private static Locale locale = new Locale("en", "CA");
+    public static LinkedHashSet<Movie> movies;
     public static MovieTable selectedMovie;
     private static final int BORDER_SIZE = 55;
 

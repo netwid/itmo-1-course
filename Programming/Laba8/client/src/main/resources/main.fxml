@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -26,7 +27,7 @@
                 <TableColumn fx:id="name" prefWidth="69.0" text="%name" />
                   <TableColumn prefWidth="129.0" text="%coordinates">
                      <columns>
-                        <TableColumn fx:id="x" prefWidth="60.0" text="X" />
+                        <TableColumn prefWidth="60.0" text="X" fx:id="x" />
                         <TableColumn fx:id="y" prefWidth="56.0" text="Y" />
                      </columns>
                   </TableColumn>
@@ -87,6 +88,11 @@
                   <Insets top="10.0" />
                </padding>
             </MenuBar>
+            <JFXButton fx:id="visualization" text="Visualization">
+               <GridPane.margin>
+                  <Insets left="90.0" />
+               </GridPane.margin>
+            </JFXButton>
             <Label styleClass="title" text="Movie Manager" GridPane.halignment="CENTER" />
             <Label fx:id="login" text="Login" GridPane.halignment="RIGHT">
                <GridPane.margin>
