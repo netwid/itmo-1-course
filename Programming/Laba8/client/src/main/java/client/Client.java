@@ -111,4 +111,8 @@ public class Client {
         Response response = Client.receive();
         return Boolean.parseBoolean(response.message);
     }
+
+    public static void updateCollection() {
+
+    }
 }

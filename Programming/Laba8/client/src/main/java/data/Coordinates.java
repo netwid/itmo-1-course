@@ -1,5 +1,7 @@
 package data;
 
+import client.WindowManager;
+
 import java.io.Serializable;
 
 /**
@@ -23,31 +25,18 @@ public class Coordinates implements Serializable {
     }
 
     /**
-     * Input coordinates.
-     *
-     * @return the coordinates
-     */
-    public static Coordinates input() {
-        double x = inputX();
-        Integer y = inputY();
-
-        return new Coordinates(x, y);
-    }
-
-    /**
      * Input x coordinate.
      *
      * @return the double
      */
-    private static double inputX() {
+    public static double inputX(String x) throws Exception {
         try {
-            System.out.print("Введите координаты x: ");
-            return Double.parseDouble(IO.get());
+            return Double.parseDouble(x);
         }
         catch (NumberFormatException e) {
-            System.out.println("Значение должно быть числом");
-            return inputX();
+            WindowManager.alert("Значение должно быть числом");
         }
+        throw new Exception();
     }
 
     /**
@@ -55,20 +44,19 @@ public class Coordinates implements Serializable {
      *
      * @return the int
      */
-    private static Integer inputY() {
+    public static Integer inputY(String y_) throws Exception {
         try {
-            System.out.print("Введите координаты y: ");
-            int y = Integer.parseInt(IO.get());
+            int y = Integer.parseInt(y_);
             if (y > 739)
                 throw new Exception("Максимальное значение для y - 739");
             return y;
         }
         catch (NumberFormatException e) {
-            System.out.println("Значение должно быть целым числом");
+            WindowManager.alert("Значение должно быть целым числом");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            WindowManager.alert(e.getMessage());
         }
-        return inputY();
+        throw new Exception();
     }
 
     public double getX() {

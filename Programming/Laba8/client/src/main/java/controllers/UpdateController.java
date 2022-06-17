@@ -1,5 +1,6 @@
 package controllers;
 
+import client.Client;
 import client.WindowManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -71,5 +72,10 @@ public class UpdateController implements Initializable {
         height.setText(String.valueOf(WindowManager.selectedMovie.height.getValue()));
         weight.setText(String.valueOf(WindowManager.selectedMovie.weight.getValue()));
         passportID.setText(String.valueOf(WindowManager.selectedMovie.passportID.getValue()));
+
+        remove.setOnAction(event -> {
+            Client.sendCommand("remove_by_id " + WindowManager.selectedMovie.id);
+            WindowManager.closePopup();
+        });
     }
 }

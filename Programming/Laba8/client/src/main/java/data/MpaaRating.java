@@ -1,5 +1,7 @@
 package data;
 
+import client.WindowManager;
+
 import java.io.Serializable;
 
 /**
@@ -38,24 +40,11 @@ public enum MpaaRating implements Serializable {
      *
      * @return the mpaa rating
      */
-    public static MpaaRating input() {
-        int cnt = 1;
-        System.out.println("Выберите возрастной рейтинг");
-        for (MpaaRating item : MpaaRating.values()) {
-            System.out.println(item.name() + " [" + cnt++ + "]");
+    public static MpaaRating input(MpaaRating mpaaRating) throws Exception {
+        if (mpaaRating == null) {
+            WindowManager.alert("Рейтинг не может быть null");
+            throw new Exception();
         }
-
-        try {
-            int num = Integer.parseInt(IO.get());
-            return MpaaRating.values()[num - 1];
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Введите число");
-            return MpaaRating.input();
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.out.println("Число не попадает в указанный диапазон");
-            return MpaaRating.input();
-        }
+        return mpaaRating;
     }
 }

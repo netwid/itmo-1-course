@@ -31,11 +31,11 @@ public class AddIfMinCommand implements Command {
         Movie newMovie = (Movie) request.object;
         List<Movie> movies = collectionManager.filterMovies(movie -> movie.getLength() <= newMovie.getLength());
         if (!movies.isEmpty()) {
-            Server.print(request.client, "К сожалению, в коллекции есть фильм с меньшим length\n");
+            Server.print(request.client, "Error");
         }
         else {
             collectionManager.add(newMovie, request.login);
-            Server.print(request.client, "Фильм добавлен");
+            Server.print(request.client, "Success");
         }
     }
 }

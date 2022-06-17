@@ -1,6 +1,7 @@
 package data;
 
 import client.Client;
+import client.WindowManager;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,31 +35,14 @@ public class Person implements Serializable {
     }
 
     /**
-     * Input person.
-     *
-     * @return the person
-     */
-    public static Person input() {
-        String name = inputName();
-        LocalDateTime birthday = inputBirthday();
-        int height = inputHeight();
-        Double weight = inputWeight();
-        String passportId = inputPassportId();
-
-        return new Person(name, birthday, height, weight, passportId);
-    }
-
-    /**
      * Input name.
      *
      * @return the name
      */
-    private static String inputName() {
-        System.out.print("Введите имя: ");
-        String name = IO.get();
+    public static String inputName(String name) throws Exception {
         if (name.isEmpty()) {
-            System.out.println("Имя не может быть пустым");
-            return inputName();
+            WindowManager.alert("Имя не может быть пустым");
+            throw new Exception();
         }
         return name;
     }
@@ -68,9 +52,8 @@ public class Person implements Serializable {
      *
      * @return the birthday
      */
-    private static LocalDateTime inputBirthday() {
+    public static LocalDateTime inputBirthday() {
         try {
-            System.out.print("Введите дату рождения (yyyy-mm-dd): ");
             String in = IO.get();
             if (in.equals(""))
                 return null;
@@ -87,20 +70,19 @@ public class Person implements Serializable {
      *
      * @return the height
      */
-    private static int inputHeight() {
+    public static int inputHeight(String height_) throws Exception {
         try {
-            System.out.print("Введите рост: ");
-            int height = Integer.parseInt(IO.get());
+            int height = Integer.parseInt(height_);
             if (height <= 0)
                 throw new Exception("Рост должен быть больше нуля");
             return height;
         }
         catch (NumberFormatException e) {
-            System.out.println("Рост должен быть числом");
+            WindowManager.alert("Рост должен быть числом");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            WindowManager.alert(e.getMessage());
         }
-        return inputHeight();
+        throw new Exception();
     }
 
     /**
@@ -108,10 +90,8 @@ public class Person implements Serializable {
      *
      * @return the weight
      */
-    private static Double inputWeight() {
+    public static Double inputWeight(String in) throws Exception {
         try {
-            System.out.print("Введите вес: ");
-            String in = IO.get();
             if (in.equals(""))
                 return null;
             double weight = Double.parseDouble(in);
@@ -120,11 +100,11 @@ public class Person implements Serializable {
             return weight;
         }
         catch (NumberFormatException e) {
-            System.out.println("Вес должен быть числом");
+            WindowManager.alert("Вес должен быть числом");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            WindowManager.alert(e.getMessage());
         }
-        return inputWeight();
+        throw new Exception();
     }
 
     /**
@@ -132,19 +112,16 @@ public class Person implements Serializable {
      *
      * @return the passport id
      */
-    private static String inputPassportId() {
-        System.out.print("Введите номер паспорта: ");
-        String passportId = IO.get();
-
-        if (passportId.length() > 41) {
-            System.out.println("Значение паспорта не должно превышать 41 символа");
-            return inputPassportId();
+    public static String inputPassportId(String passportID) throws Exception {
+        if (passportID.length() > 41) {
+            WindowManager.alert("Значение паспорта не должно превышать 41 символа");
+            throw new Exception();
         }
-        if (Client.checkContainsPassport(passportId)) {
-            System.out.println("Значение паспорта должно быть уникальным");
-            return inputPassportId();
+        if (Client.checkContainsPassport(passportID)) {
+            WindowManager.alert("Значение паспорта должно быть уникальным");
+            throw new Exception();
         }
-        return passportId;
+        return passportID;
     }
 
     public String getName() {

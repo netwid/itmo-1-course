@@ -1,5 +1,7 @@
 package data;
 
+import client.WindowManager;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -35,25 +37,6 @@ public class Movie implements Serializable {
      * Instantiates a new data.Movie.
      */
     public Movie() {
-
-    }
-
-    /**
-     * Input movie.
-     *
-     * @return the movie
-     */
-    public static Movie input() {
-        String name = inputName();
-        Coordinates coordinates = Coordinates.input();
-        long oscarsCount = inputOscars();
-        int length = inputLength();
-        MovieGenre movieGenre = MovieGenre.input();
-        MpaaRating mpaaRating = MpaaRating.input();
-        System.out.println("Введите информацию о режиссёре");
-        Person person = Person.input();
-
-        return new Movie(0, name, coordinates, LocalDate.now(), oscarsCount, length, movieGenre, mpaaRating, person);
     }
 
     /**
@@ -61,12 +44,9 @@ public class Movie implements Serializable {
      *
      * @return the name
      */
-    public static String inputName() {
-        System.out.print("Введите название: ");
-        String name = IO.get();
+    public static String inputName(String name) {
         if (name.isEmpty()) {
-            System.out.println("Название не может быть пустым");
-            return inputName();
+            WindowManager.alert("Название не может быть пустым");
         }
         return name;
     }
@@ -76,20 +56,19 @@ public class Movie implements Serializable {
      *
      * @return the oscars count
      */
-    public static long inputOscars() {
+    public static long inputOscars(String oscars) throws Exception {
         try {
-            System.out.print("Введите количество оскаров: ");
-            long oscarsCount = Long.parseLong(IO.get());
+            long oscarsCount = Long.parseLong(oscars);
             if (oscarsCount <= 0)
                 throw new Exception("Количество оскаров должно быть больше нуля");
             return oscarsCount;
         }
         catch (NumberFormatException e) {
-            System.out.println("Количество оскаров должно быть целым числом");
+            WindowManager.alert("Количество оскаров должно быть целым числом");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            WindowManager.alert(e.getMessage());
         }
-        return inputOscars();
+        throw new Exception();
     }
 
     /**
@@ -97,21 +76,19 @@ public class Movie implements Serializable {
      *
      * @return the length
      */
-    public static int inputLength() {
+    public static int inputLength(String len) throws Exception {
         try {
-            System.out.print("Введите длину: ");
-            int length = Integer.parseInt(IO.get());
+            int length = Integer.parseInt(len);
             if (length <= 0)
                 throw new Exception("Длина должна быть больше нуля");
             return length;
         }
         catch (NumberFormatException e) {
-            System.out.println("Длина должна быть целым числом");
+            WindowManager.alert("Длина должна быть целым числом");
+        } catch (Exception e) {
+            WindowManager.alert(e.getMessage());
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return inputLength();
+        throw new Exception("Длина должна быть больше нуля");
     }
 
     /**

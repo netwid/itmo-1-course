@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.MovieTable;
@@ -53,10 +54,11 @@ public class WindowManager {
     private static Stage popup = new Stage();
     private static String lastTitle;
     private static String lastFxml;
-    private static Alert alert;
+    private static Alert alert = new Alert(Alert.AlertType.NONE);
     private static Locale locale = new Locale("en", "CA");
     public static LinkedHashSet<Movie> movies;
     public static MovieTable selectedMovie;
+    public static String addType = "add";
     private static final int BORDER_SIZE = 55;
 
     public static void setRoot(Stage root) {
@@ -100,9 +102,13 @@ public class WindowManager {
             popup.setScene(new Scene(loader.load()));
         }
         catch (IOException e) {
-
+            System.out.println(e.getMessage());
         }
         popup.show();
+    }
+
+    public static void closePopup() {
+        popup.close();
     }
 
     public static void createMessage() {
@@ -116,5 +122,13 @@ public class WindowManager {
 
     public static Locale getLocale() {
         return locale;
+    }
+
+    public static void alert(String text) {
+        alert.close();
+        alert = new Alert(Alert.AlertType.NONE);
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        alert.setContentText(text);
+        alert.show();
     }
 }

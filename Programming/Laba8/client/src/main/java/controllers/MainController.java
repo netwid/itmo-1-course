@@ -8,14 +8,12 @@ import data.Movie;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import models.AuthModel;
 import models.MovieTable;
 
@@ -78,6 +76,24 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         help.setOnAction(event -> WindowManager.createPopup("Help", "commands/help"));
         info.setOnAction(event -> WindowManager.createPopup("Info", "commands/info"));
+        show.setOnAction(event -> WindowManager.createPopup("Show", "commands/show"));
+        add.setOnAction(event -> {
+            WindowManager.addType = "add";
+            WindowManager.createPopup("Add", "commands/add");
+        });
+        clear.setOnAction(event -> Client.sendCommand("clear"));
+        executeScript.setOnAction(event -> {
+
+        });
+        addIfMax.setOnAction(event -> {
+            WindowManager.addType = "add_if_max";
+            WindowManager.createPopup("Add", "commands/add");
+        });
+        addIfMin.setOnAction(event -> {
+            WindowManager.addType = "add_if_min";
+            WindowManager.createPopup("Add", "commands/add");
+        });
+        removeLower.setOnAction(event -> WindowManager.createPopup("Remove lowe", "commands/removeLower"));
         exit.setOnAction(event -> {
             Platform.exit();
             System.exit(0);
