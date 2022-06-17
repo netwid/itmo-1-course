@@ -70,8 +70,6 @@
                     <MenuItem fx:id="info" mnemonicParsing="false" text="Info" />
                     <MenuItem fx:id="show" mnemonicParsing="false" text="Show" />
                     <MenuItem fx:id="add" mnemonicParsing="false" text="Add" />
-                    <MenuItem mnemonicParsing="false" text="Update" />
-                    <MenuItem mnemonicParsing="false" text="Remove by ID" />
                     <MenuItem fx:id="clear" mnemonicParsing="false" text="Clear" />
                     <MenuItem fx:id="executeScript" mnemonicParsing="false" text="Execute script" />
                     <MenuItem fx:id="addIfMax" mnemonicParsing="false" text="Add if max" />

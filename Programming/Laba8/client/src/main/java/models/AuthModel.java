@@ -23,11 +23,11 @@ public class AuthModel {
     }
 
     public void switchToRegister() {
-        WindowManager.setScene("Registration", "registerScene");
+        WindowManager.setScene("Registration", "register");
     }
 
     public void switchToLogin() {
-        WindowManager.setScene("Login", "loginScene");
+        WindowManager.setScene("Login", "login");
     }
 
     public void login(String login, String password) {

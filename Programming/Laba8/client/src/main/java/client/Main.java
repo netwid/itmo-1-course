@@ -10,7 +10,7 @@ public class Main extends Application {
         stage.setMaximized(true);
 
         WindowManager.setRoot(stage);
-        WindowManager.setScene("Login", "loginScene");
+        WindowManager.setScene("Login", "login");
 
         stage.show();
     }

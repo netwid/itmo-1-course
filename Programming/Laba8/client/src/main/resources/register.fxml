@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import com.jfoenix.controls.JFXPasswordField?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@common.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
    <children>
       <VBox alignment="center" layoutX="68.0" layoutY="94.0" maxHeight="600.0" maxWidth="600.0" prefHeight="200.0" prefWidth="464.0" spacing="15.0" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
@@ -26,9 +27,9 @@
                </rowConstraints>
                <children>
                   <Label text="Login: " />
-                  <JFXTextField promptText="Login" GridPane.columnIndex="1" />
+                  <JFXTextField fx:id="login" promptText="Login" GridPane.columnIndex="1" />
                   <Label text="Password: " GridPane.rowIndex="1" />
-                  <JFXTextField promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <JFXPasswordField fx:id="password" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane maxWidth="420.0">

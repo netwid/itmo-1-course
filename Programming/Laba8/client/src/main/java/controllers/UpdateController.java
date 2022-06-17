@@ -74,7 +74,7 @@ public class UpdateController implements Initializable {
         passportID.setText(String.valueOf(WindowManager.selectedMovie.passportID.getValue()));
 
         remove.setOnAction(event -> {
-            Client.sendCommand("remove_by_id " + WindowManager.selectedMovie.id);
+            Client.sendCommand("remove_by_id " + WindowManager.selectedMovie.id.getValue());
             WindowManager.closePopup();
         });
     }
