@@ -77,7 +77,7 @@
                     <MenuItem fx:id="removeLower" mnemonicParsing="false" text="Remove lower" />
                     <MenuItem mnemonicParsing="false" text="Count less than MPAA rating" />
                     <MenuItem mnemonicParsing="false" text="Filter greater than MPAA rating" />
-                    <MenuItem mnemonicParsing="false" text="Print field descending genre" />
+                    <MenuItem fx:id="printFieldDescendingGenre" mnemonicParsing="false" text="Print field descending genre" />
                     <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit" />
                   </items>
                 </Menu>

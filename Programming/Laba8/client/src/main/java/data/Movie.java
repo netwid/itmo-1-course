@@ -19,9 +19,15 @@ public class Movie implements Serializable {
     private MovieGenre genre;        // Поле может быть null
     private MpaaRating mpaaRating;   // Поле не может быть null
     private Person screenwriter;
+    private int ownerId;
 
     public Movie(int id, String name, Coordinates coordinates, LocalDate creationDate, long oscarsCount, int length,
                  MovieGenre genre, MpaaRating mpaaRating, Person screenwriter) {
+        this(id, name, coordinates, creationDate, oscarsCount, length, genre, mpaaRating, screenwriter, 0);
+    }
+
+    public Movie(int id, String name, Coordinates coordinates, LocalDate creationDate, long oscarsCount, int length,
+                 MovieGenre genre, MpaaRating mpaaRating, Person screenwriter, int ownerId) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -31,6 +37,7 @@ public class Movie implements Serializable {
         this.genre = genre;
         this.mpaaRating = mpaaRating;
         this.screenwriter = screenwriter;
+        this.ownerId = ownerId;
     }
 
     /**
@@ -150,6 +157,10 @@ public class Movie implements Serializable {
      */
     public MovieGenre getGenre() {
         return genre;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
     }
 
     public double coordinatesTo(Coordinates coordinates) {

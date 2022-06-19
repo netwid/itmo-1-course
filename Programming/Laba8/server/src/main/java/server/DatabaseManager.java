@@ -85,7 +85,8 @@ public class DatabaseManager {
                         rs.getInt("screenwriter_height"),
                         rs.getDouble("screenwriter_weight"),
                         rs.getString("screenwriter_passport_id")
-                    )
+                    ),
+                    rs.getInt("owner_id")
                 );
                 movies.add(movie);
             }
@@ -176,10 +177,11 @@ public class DatabaseManager {
         }
     }
 
-    public boolean clear() {
+    public boolean clear(int userId) {
         try {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM movie");
-            return ps.executeUpdate() > 0;
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE owner_id = ?");
+            ps.setInt(1, userId);
+            return true;
         } catch (SQLException e) {
             return false;
         }
@@ -198,11 +200,12 @@ public class DatabaseManager {
         }
     }
 
-    public boolean removeLower(int length) {
+    public boolean removeLower(int length, int userId) {
         try {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE length < ?");
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE length < ? AND owner_id = ?");
             ps.setInt(1, length);
-            return ps.executeUpdate() > 0;
+            ps.setInt(2, userId);
+            return true;
         } catch (SQLException e) {
             return false;
         }
@@ -254,7 +257,7 @@ public class DatabaseManager {
 
     public int getId(String login) {
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE login = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"user\" WHERE login = ?");
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next())

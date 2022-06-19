@@ -21,7 +21,7 @@ public class ClearCommand implements Command {
 
     @Override
     public void execute(Request request) {
-        this.collectionManager.clear();
-        Server.print(request.client, "Коллекция очищена\n");
+        this.collectionManager.clear(request.login);
+        Server.sendObject(request.client, collectionManager.getAll());
     }
 }

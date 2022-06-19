@@ -78,7 +78,13 @@ public class UpdateController implements Initializable {
 
         remove.setOnAction(event -> {
             Client.sendCommand("remove_by_id " + WindowManager.selectedMovie.id.getValue());
-            WindowManager.closePopup();
+            Response response = Client.receive();
+            if (response.success) {
+                WindowManager.closePopup();
+                WindowManager.updateCollection(WindowManager.getCollection(0, 0));
+            } else {
+                WindowManager.alert(response.message);
+            }
         });
 
         update.setOnAction(event -> {
@@ -92,7 +98,11 @@ public class UpdateController implements Initializable {
                 MovieGenre genre_ = genre.getValue();
                 MpaaRating mpaa = MpaaRating.input(mpaaRating.getValue());
                 String screenwriterName_ = Person.inputName(screenwriterName.getText());
-                LocalDateTime birthday = LocalDateTime.of(birthdayDate.getValue(), birthdayTime.getValue());
+                LocalDateTime birthday;
+                if (birthdayDate.getValue() == null || birthdayTime.getValue() == null)
+                    birthday = null;
+                else
+                    birthday = LocalDateTime.of(birthdayDate.getValue(), birthdayTime.getValue());
                 int height_ = Person.inputHeight(height.getText());
                 Double weight_ = Person.inputWeight(weight.getText());
                 String passportID_ = Person.inputPassportId(passportID.getText());

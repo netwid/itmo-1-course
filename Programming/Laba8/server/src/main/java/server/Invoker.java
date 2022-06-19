@@ -35,7 +35,6 @@ public class Invoker {
         commands.put("count_less_than_mpaa_rating", new CountLessThanMpaaRatingCommand(collectionManager));
         commands.put("filter_greater_than_mpaa_rating", new FilterGreaterThanMpaaRatingCommand(collectionManager));
         commands.put("print_field_descending_genre", new PrintFieldDescendingGenre(collectionManager));
-        commands.put("check_passport", new CheckPassportCommand(collectionManager));
         commands.put("exit", new ExitCommand());
     }
 
@@ -58,14 +57,14 @@ public class Invoker {
      */
     public void execute(Request request) {
         ThreadPoolExecutor cachedPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-        if (cachedPool.getActiveCount() < 4) {
+        if (cachedPool.getActiveCount() < 1) {
             cachedPool.execute(() -> {
                 request.command = request.command.toLowerCase(Locale.ROOT);
                 try {
                     if (request.command.equals("register")) {
                         boolean result = AuthManager.register(request.login, request.password);
                         if (result) {
-                            Server.print(request.client, String.valueOf(DatabaseManager.getInstance().getId(request.login)));
+                            Server.sendObject(request.client, DatabaseManager.getInstance().getId(request.login));
                         } else {
                             Server.error(request.client, "Регистрация не удалась");
                         }
@@ -74,19 +73,19 @@ public class Invoker {
                     if (request.command.equals("login")) {
                         boolean result = AuthManager.checkLogin(request.login, request.password);
                         if (result) {
-                            Server.print(request.client, String.valueOf(DatabaseManager.getInstance().getId(request.login)));
+                            Server.sendObject(request.client, DatabaseManager.getInstance().getId(request.login));
                         } else {
                             Server.error(request.client, "Неверные данные");
                         }
                         return;
                     }
                     if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {
-                        Server.print(request.client, "Требуется аутенфикация");
+                        Server.error(request.client, "Требуется аутенфикация");
                         return;
                     }
                     this.commands.get(request.command).execute(request);
                 } catch (NullPointerException e) {
-                    Server.print(request.client, "Команда не найдена\n");
+                    Server.error(request.client, "Команда не найдена\n");
                 }
             });
         }

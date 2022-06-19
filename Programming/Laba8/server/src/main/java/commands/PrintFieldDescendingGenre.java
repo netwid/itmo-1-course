@@ -4,6 +4,8 @@ import data.Request;
 import server.CollectionManager;
 import server.Server;
 
+import java.io.Serializable;
+
 /**
  * The type Print field descending genre.
  */
@@ -21,6 +23,6 @@ public class PrintFieldDescendingGenre implements Command {
 
     @Override
     public void execute(Request request) {
-        Server.print(request.client, this.collectionManager.printFieldDescendingGenre());
+        Server.sendObject(request.client, (Serializable) this.collectionManager.printFieldDescendingGenre());
     }
 }

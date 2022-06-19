@@ -65,7 +65,11 @@ public class AddController implements Initializable {
                 MovieGenre genre_ = genre.getValue();
                 MpaaRating mpaa = MpaaRating.input(mpaaRating.getValue());
                 String screenwriterName_ = Person.inputName(screenwriterName.getText());
-                LocalDateTime birthday = LocalDateTime.of(birthdayDate.getValue(), birthdayTime.getValue());
+                LocalDateTime birthday;
+                if (birthdayDate.getValue() == null || birthdayTime.getValue() == null)
+                    birthday = null;
+                else
+                    birthday = LocalDateTime.of(birthdayDate.getValue(), birthdayTime.getValue());
                 int height_ = Person.inputHeight(height.getText());
                 Double weight_ = Person.inputWeight(weight.getText());
                 String passportID_ = Person.inputPassportId(passportID.getText());

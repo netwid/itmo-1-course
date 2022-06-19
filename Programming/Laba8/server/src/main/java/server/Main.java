@@ -23,7 +23,7 @@ public class Main {
 
             ThreadPoolExecutor cachedPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
             while (true) {
-                if (cachedPool.getActiveCount() < 4) {
+                if (cachedPool.getActiveCount() < 1) {
                     cachedPool.execute(() -> {
                         Request request = Server.receive();
                         if (request != null) {

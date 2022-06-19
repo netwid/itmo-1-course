@@ -28,7 +28,7 @@ public class AddCommand implements Command {
         }
         Movie movie = (Movie) request.object;
         if (collectionManager.add(movie, request.login)) {
-            Server.print(request.client, "Success");
+            Server.sendObject(request.client, collectionManager.getAll());
         } else {
             Server.error(request.client, "Не удалось добавить элемент");
         }

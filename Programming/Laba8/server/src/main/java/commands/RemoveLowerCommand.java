@@ -24,12 +24,13 @@ public class RemoveLowerCommand implements Command {
         try {
             int length = Integer.parseInt(request.args[0]);
             collectionManager.removeLower(length, request.login);
+            Server.sendObject(request.client, collectionManager.getAll());
         }
         catch (IndexOutOfBoundsException e) {
-            Server.print(request.client, "Не передана длина\n");
+            Server.error(request.client, "Не передана длина\n");
         }
         catch (NumberFormatException e) {
-            Server.print(request.client, "Длина должна быть числом\n");
+            Server.error(request.client, "Длина должна быть числом\n");
         }
     }
 }

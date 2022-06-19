@@ -56,6 +56,7 @@ public class WindowManager {
     private static String lastTitle;
     private static String lastFxml;
     private static Alert alert = new Alert(Alert.AlertType.NONE);
+    private static Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
     private static Locale locale = new Locale("en", "CA");
     public static LinkedHashSet<Movie> movies;
     public static MovieTable selectedMovie;
@@ -126,18 +127,16 @@ public class WindowManager {
 
     public static void alert(String text) {
         alert.close();
-        alert = new Alert(Alert.AlertType.NONE);
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.setContentText(text);
         alert.show();
     }
 
     public static Optional<ButtonType> confirm(String text) {
-        alert.close();
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setContentText(text);
-        return alert.showAndWait();
+        confirm.close();
+        confirm.setTitle("Confirmation");
+        confirm.setContentText(text);
+        return confirm.showAndWait();
     }
 
     public static LinkedHashSet<Movie> getCollection(double x, int y) {

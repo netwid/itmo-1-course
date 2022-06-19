@@ -6,6 +6,7 @@ import data.Movie;
 import data.MpaaRating;
 import server.Server;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class FilterGreaterThanMpaaRatingCommand implements Command {
             return;
         }
         MpaaRating mpaaRating = (MpaaRating) request.object;
-        List<Movie> movies = collectionManager.filterMovies(movie -> movie.getMpaaRating().compareRatings(mpaaRating) == 1);
-        Server.print(request.client, movies + "\n");
+        Server.sendObject(request.client,
+                (Serializable) collectionManager.filterMovies(movie -> movie.getMpaaRating().compareRatings(mpaaRating) == 1));
     }
 }

@@ -23,7 +23,7 @@ public class ExecuteScriptCommand implements Command {
             Invoker invoker = Invoker.getInstance();
 
             if (executeFiles.containsKey(request.args[0])) {
-                Server.print(request.client, "Вызов скриптов зациклен\n");
+                Server.error(request.client, "Вызов скриптов зациклен\n");
                 return;
             }
             executeFiles.put(request.args[0], true);
@@ -38,13 +38,13 @@ public class ExecuteScriptCommand implements Command {
             executeFiles.clear();
         }
         catch (IndexOutOfBoundsException e) {
-            Server.print(request.client, "Не передан аргумент путь до файла\n");
+            Server.error(request.client, "Не передан аргумент путь до файла\n");
         }
         catch (FileNotFoundException e) {
-            Server.print(request.client, "Не удалось найти файл\n");
+            Server.error(request.client, "Не удалось найти файл\n");
         }
         catch (IOException e) {
-            Server.print(request.client, "Ошибка при записи в файл. Недостаточно прав\n");
+            Server.error(request.client, "Ошибка при записи в файл. Недостаточно прав\n");
         }
     }
 }

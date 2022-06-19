@@ -4,6 +4,7 @@ import client.Client;
 import client.WindowManager;
 import data.Coordinates;
 import data.Movie;
+import data.Response;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,9 +13,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import models.AuthModel;
 import models.MovieTable;
 
 import javax.swing.event.CaretListener;
@@ -42,7 +45,8 @@ public class VisualizationController implements Initializable {
         int minY = Collections.min(WindowManager.movies, Comparator.comparingInt(movie -> movie.getCoordinates().getY())).getCoordinates().getY();
 
         for (Movie movie : WindowManager.movies) {
-            Group g = cameraFabric(100 + 50 * (movie.getLength() - minLength) / (maxLength - minLength));
+            Group g = cameraFabric(100 + 50 * (movie.getLength() - minLength) / (maxLength - minLength),
+                    movie.getOwnerId() == AuthModel.getInstance().getId() ? Color.GREEN : Color.BLACK);
             g.setLayoutX(1700 * (movie.getCoordinates().getX() - minX) / (maxX - minX));
             g.setLayoutY(925.0 * (movie.getCoordinates().getY() - minY) / (maxY - minY));
             movies.put(g, movie);
@@ -62,6 +66,9 @@ public class VisualizationController implements Initializable {
                     Client.sendCommandObject("update " + movie.getId(), movie.changeCoordinates(new Coordinates(
                             event.getX(), (int) event.getY()
                     )));
+                    Response response = Client.receive();
+                    if (!response.success)
+                        WindowManager.alert(response.message);
                 } else {
                     chosen.setLayoutX(saveX);
                     chosen.setLayoutY(saveY);
@@ -79,15 +86,17 @@ public class VisualizationController implements Initializable {
         });
     }
 
-    private Group cameraFabric(int length) {
+    private Group cameraFabric(int length, Color color) {
         double size = length;
         Rectangle r = new Rectangle(length, length);
+        r.setFill(color);
         Polygon polygon = new Polygon();
         polygon.getPoints().addAll(
             size, size / 2,
             size + size / 2, 0.0,
             size + size / 2, size
         );
+        polygon.setFill(color);
         Group g = new Group();
         g.getChildren().add(r);
         g.getChildren().add(polygon);

@@ -1,6 +1,7 @@
 package server;
 
 import data.Movie;
+import data.MovieGenre;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -64,9 +65,10 @@ public class CollectionManager {
     /**
      * Clear movies.
      */
-    public void clear() {
-        if (dm.clear())
-            movies.clear();
+    public void clear(String login) {
+        int userId = dm.getId(login);
+        if (dm.clear(userId))
+            movies.removeIf(movie -> movie.getId() == userId);
     }
 
     /**
@@ -141,27 +143,15 @@ public class CollectionManager {
     public void removeLower(int length, String login) {
         if (lock.writeLock().tryLock()) {
             try {
-                if (dm.removeLower(length))
-                    movies.removeIf(movie -> movie.getLength() < length);
+                int userId = dm.getId(login);
+                if (dm.removeLower(length, userId))
+                    movies.removeIf(movie -> movie.getLength() < length && movie.getId() == userId);
             } finally {
                 lock.writeLock().unlock();
             }
         } else {
             System.out.println("Запись уже идёт");
         }
-    }
-
-
-    /**
-     * Contains passport boolean.
-     *
-     * @param passportId the passport id
-     * @return the boolean
-     */
-    public boolean containsPassport(String passportId) {
-        return movies
-            .stream()
-            .anyMatch(movie -> movie.getScreenwriter().getPassportID().equals(passportId));
     }
 
     /**
@@ -180,16 +170,12 @@ public class CollectionManager {
     /**
      * Print field descending genre.
      */
-    public String printFieldDescendingGenre() {
-        Map<Integer, String> genres = new TreeMap<>();
-        for (Movie movie : movies) {
-            genres.put(movie.getGenre().ordinal(), movie.getGenre().name());
-        }
-
-        StringBuilder sb = new StringBuilder("");
-        for (String genre : genres.values()) {
-            sb.append(genre).append('\n');
-        }
-        return String.valueOf(sb);
+    public List<MovieGenre> printFieldDescendingGenre() {
+        return movies.stream()
+            .map(Movie::getGenre)
+            .filter(Objects::nonNull)
+            .distinct()
+            .sorted(Comparator.comparingInt(Enum::ordinal))
+            .collect(Collectors.toList());
     }
 }

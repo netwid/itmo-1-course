@@ -5,6 +5,7 @@ import client.WindowManager;
 import com.jfoenix.controls.JFXButton;
 import data.Coordinates;
 import data.Movie;
+import data.MovieGenre;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,10 +16,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import models.AuthModel;
+import models.MainModel;
 import models.MovieTable;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -33,6 +36,7 @@ public class MainController implements Initializable {
     @FXML public MenuItem addIfMax;
     @FXML public MenuItem addIfMin;
     @FXML public MenuItem removeLower;
+    @FXML public MenuItem printFieldDescendingGenre;
     @FXML public MenuItem exit;
     @FXML public Label login;
     @FXML public MenuItem russiaLang;
@@ -83,9 +87,7 @@ public class MainController implements Initializable {
             WindowManager.createPopup("Add", "commands/add");
         });
         clear.setOnAction(event -> Client.sendCommand("clear"));
-        executeScript.setOnAction(event -> {
-
-        });
+        executeScript.setOnAction(event -> MainModel.executeScript());
         addIfMax.setOnAction(event -> {
             WindowManager.addType = "add_if_max";
             WindowManager.createPopup("Add", "commands/add");
@@ -95,6 +97,7 @@ public class MainController implements Initializable {
             WindowManager.createPopup("Add", "commands/add");
         });
         removeLower.setOnAction(event -> WindowManager.createPopup("Remove lower", "commands/removeLower"));
+        printFieldDescendingGenre.setOnAction(event -> MainModel.printFieldDescendingGenre());
         exit.setOnAction(event -> {
             Platform.exit();
             System.exit(0);

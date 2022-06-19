@@ -31,6 +31,6 @@ public class CountLessThanMpaaRatingCommand implements Command {
         }
         MpaaRating mpaaRating = (MpaaRating) request.object;
         List<Movie> movies = collectionManager.filterMovies(movie -> movie.getMpaaRating().compareRatings(mpaaRating) == -1);
-        Server.print(request.client, movies.size() + "\n");
+        Server.sendObject(request.client, movies.size());
     }
 }

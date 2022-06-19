@@ -5,6 +5,7 @@ import client.WindowManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import data.Movie;
+import data.Response;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -26,7 +27,12 @@ public class RemoveLower implements Initializable {
             try {
                 int length_ = Movie.inputLength(length.getText());
                 Client.sendCommand("remove_lower " + length_);
-                WindowManager.updateCollection((LinkedHashSet<Movie>) Client.receive().object);
+                Response response = Client.receive();
+                if (response.success) {
+                    WindowManager.updateCollection((LinkedHashSet<Movie>) response.object);
+                } else {
+                    WindowManager.alert(response.message);
+                }
             } catch (Exception e) {
 
             }

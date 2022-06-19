@@ -10,6 +10,7 @@ public class AuthModel {
     private static AuthModel instance;
     private static String login;
     private static String password;
+    private static int id;
 
     private AuthModel() {
 
@@ -39,6 +40,7 @@ public class AuthModel {
         }
         AuthModel.login = login;
         AuthModel.password = password;
+        AuthModel.id = (int) response.object;
         WindowManager.setScene("Manager", "main");
     }
 
@@ -51,6 +53,7 @@ public class AuthModel {
         }
         AuthModel.login = login;
         AuthModel.password = password;
+        AuthModel.id = (int) response.object;
         WindowManager.setScene("Manager", "main");
     }
 
@@ -60,5 +63,9 @@ public class AuthModel {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getId() {
+        return id;
     }
 }

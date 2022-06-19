@@ -35,7 +35,7 @@ public class AddIfMinCommand implements Command {
         }
         else {
             collectionManager.add(newMovie, request.login);
-            Server.print(request.client, "Success");
+            Server.sendObject(request.client, collectionManager.getAll());
         }
     }
 }
