@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -14,14 +16,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="868.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
    <center>
       <AnchorPane prefHeight="532.0" prefWidth="973.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="movies" prefHeight="200.0" prefWidth="677.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <TableView fx:id="movies" layoutY="51.0" prefHeight="428.0" prefWidth="848.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
               <columns>
                 <TableColumn fx:id="id" prefWidth="59.0" text="ID" />
                 <TableColumn fx:id="name" prefWidth="69.0" text="%name" />
@@ -50,6 +53,25 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <FlowPane hgap="2.0" layoutX="54.0" layoutY="-66.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <JFXTextField fx:id="idFilter" prefHeight="26.0" prefWidth="132.0" />
+                  <JFXTextField fx:id="nameFilter" prefHeight="26.0" prefWidth="137.0" />
+                  <JFXTextField prefHeight="26.0" prefWidth="135.0" fx:id="xFilter" />
+                  <JFXTextField fx:id="yFilter" prefHeight="26.0" prefWidth="134.0" />
+                  <JFXTextField fx:id="creationDateFilter" prefHeight="26.0" prefWidth="133.0" />
+                  <JFXTextField fx:id="oscarsCountFilter" prefHeight="26.0" prefWidth="133.0" />
+                  <JFXTextField fx:id="lengthFilter" prefHeight="26.0" prefWidth="134.0" />
+                  <ChoiceBox fx:id="genreFilter" prefHeight="26.0" prefWidth="134.0" />
+                  <ChoiceBox fx:id="mpaaRatingFilter" prefHeight="26.0" prefWidth="126.0" />
+                  <JFXTextField fx:id="screenwriterNameFilter" prefHeight="26.0" prefWidth="124.0" />
+                  <JFXTextField fx:id="birthdayFilter" prefHeight="26.0" prefWidth="114.0" />
+                  <JFXTextField fx:id="heightFilter" prefHeight="26.0" prefWidth="117.0" />
+                  <JFXTextField fx:id="weightFilter" prefHeight="26.0" prefWidth="132.0" />
+                  <JFXTextField fx:id="passportIdFilter" prefHeight="26.0" prefWidth="133.0" />
+                  <JFXButton fx:id="filterButton" style="-fx-background-color: #CCC;" text="Filter" />
+               </children>
+            </FlowPane>
          </children>
       </AnchorPane>
    </center>
