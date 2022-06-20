@@ -3,11 +3,14 @@ package controllers;
 import client.Client;
 import client.WindowManager;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import data.Coordinates;
 import data.Movie;
 import data.MovieGenre;
+import data.MpaaRating;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,10 +23,10 @@ import models.MainModel;
 import models.MovieTable;
 
 import java.net.URL;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainController implements Initializable {
     @FXML public JFXButton visualization;
@@ -62,6 +65,22 @@ public class MainController implements Initializable {
     @FXML public TableColumn<MovieTable, Double> weight;
     @FXML public TableColumn<MovieTable, String> passportID;
 
+    @FXML private JFXTextField idFilter;
+    @FXML private JFXTextField nameFilter;
+    @FXML private JFXTextField xFilter;
+    @FXML private JFXTextField yFilter;
+    @FXML private JFXTextField creationDateFilter;
+    @FXML private JFXTextField oscarsCountFilter;
+    @FXML private JFXTextField lengthFilter;
+    @FXML private ChoiceBox<String> genreFilter;
+    @FXML private ChoiceBox<String> mpaaRatingFilter;
+    @FXML private JFXTextField screenwriterNameFilter;
+    @FXML private JFXTextField birthdayFilter;
+    @FXML private JFXTextField heightFilter;
+    @FXML private JFXTextField weightFilter;
+    @FXML private JFXTextField passportIdFilter;
+    @FXML private JFXButton filterButton;
+
     public ObservableList<MovieTable> masterData = FXCollections.observableArrayList();
     public ObservableList<MovieTable> filteredData = FXCollections.observableArrayList();
 
@@ -78,6 +97,8 @@ public class MainController implements Initializable {
                     value.getScreenwriter().getBirthday(), value.getScreenwriter().getHeight(),
                     value.getScreenwriter().getWeight(), value.getScreenwriter().getPassportID())));
         }
+        filteredData.addAll(masterData);
+        masterData.addListener((ListChangeListener<MovieTable>) change -> updateFilteredData());
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -148,7 +169,7 @@ public class MainController implements Initializable {
         weight.setCellValueFactory(cellData -> cellData.getValue().weight.asObject());
         passportID.setCellValueFactory(cellData -> cellData.getValue().passportID);
 
-        movies.setItems(masterData);
+        movies.setItems(filteredData);
 
         movies.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -158,5 +179,111 @@ public class MainController implements Initializable {
                 }
             }
         });
+
+        filterButton.setOnAction(event -> {
+            updateFilteredData();
+        });
+
+        genreFilter.getItems().addAll(Arrays.stream(MovieGenre.values()).map(Enum::name).collect(Collectors.toList()));
+        genreFilter.getItems().add("GENRE");
+        genreFilter.setValue("GENRE");
+        mpaaRatingFilter.getItems().addAll(Arrays.stream(MpaaRating.values()).map(Enum::name).collect(Collectors.toList()));
+        mpaaRatingFilter.getItems().add("RATING");
+        mpaaRatingFilter.setValue("RATING");
+
+        setIntegerFilter(idFilter);
+        setFloatFilter(xFilter);
+        setIntegerFilter(yFilter);
+        setDateFilter(creationDateFilter);
+        setIntegerFilter(oscarsCountFilter);
+        setIntegerFilter(lengthFilter);
+        setDateFilter(birthdayFilter);
+        setFloatFilter(weightFilter);
+        setIntegerFilter(heightFilter);
+    }
+
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException | NullPointerException e) {
+            return false;
+        }
+    }
+
+    public static boolean isFloat(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException | NullPointerException e) {
+            return false;
+        }
+    }
+
+    public static void setFloatFilter(TextField filter) {
+        filter.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && (!isFloat(newValue) || Float.parseFloat(newValue) < 0 ||
+                    (newValue.length() > 1 && newValue.indexOf('.') != 1 && newValue.indexOf("00") == 0) ||
+                    newValue.contains("d") || newValue.contains("f") || newValue.contains(" "))) {
+                if (oldValue.isEmpty())
+                    filter.clear();
+                else
+                    filter.setText(oldValue);
+            }
+        });
+    }
+
+    public static void setIntegerFilter(TextField filter) {
+        filter.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && (!isInteger(newValue) || Integer.parseInt(newValue) < 0 ||
+                    newValue.indexOf("00") == 0) ||
+                    newValue.contains("d") || newValue.contains("f") || newValue.contains(" ")) {
+                if (oldValue.isEmpty())
+                    filter.clear();
+                else
+                    filter.setText(oldValue);
+            }
+        });
+    }
+
+    public static void setDateFilter(TextField filter) {
+        filter.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && (newValue.length() >= 10 && !isDate(newValue))) {
+                if (oldValue.isEmpty())
+                    filter.clear();
+                else
+                    filter.setText(oldValue);
+            }
+        });
+    }
+
+    public static boolean isDate(String date) {
+        try {
+            LocalDate.parse(date);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private void updateFilteredData() {
+        filteredData.clear();
+
+        masterData.stream()
+                .filter(e -> idFilter.getText().isEmpty() || Integer.toString(e.id.getValue()).contains(idFilter.getText()))
+                .filter(e -> nameFilter.getText().isEmpty() || e.name.getValue().contains(nameFilter.getText()))
+                .filter(e -> xFilter.getText().isEmpty() || Double.toString(e.x.getValue()).contains(xFilter.getText()))
+                .filter(e -> yFilter.getText().isEmpty() || Double.toString(e.y.getValue()).contains(yFilter.getText()))
+                .filter(e -> creationDateFilter.getText().isEmpty() || e.creationDate.getValue().contains(creationDateFilter.getText()))
+                .filter(e -> oscarsCountFilter.getText().isEmpty() || Long.toString(e.oscarsCount.getValue()).contains(heightFilter.getText()))
+                .filter(e -> lengthFilter.getText().isEmpty() || Integer.toString(e.length.getValue()).contains(lengthFilter.getText()))
+                .filter(e -> genreFilter.getValue().equals("GENRE") || Objects.equals(e.genre.getValue(), genreFilter.getValue()))
+                .filter(e -> mpaaRatingFilter.getValue().equals("RATING") || Objects.equals(e.mpaaRating.getValue(), mpaaRatingFilter.getValue()))
+                .filter(e -> screenwriterNameFilter.getText().isEmpty() || e.screenwriterName.getValue().contains(screenwriterNameFilter.getText()))
+                .filter(e -> birthdayFilter.getText().isEmpty() || e.birthday.getValue().contains(birthdayFilter.getText()))
+                .filter(e -> heightFilter.getText().isEmpty() || e.height.toString().equals(heightFilter.getText()))
+                .filter(e -> weightFilter.getText().isEmpty() || e.weight.toString().equals(weightFilter.getText()))
+                .filter(e -> passportIdFilter.getText().isEmpty() || e.passportID.getValue().equals(passportIdFilter.getText()))
+                .forEach(e -> filteredData.add(e));
     }
 }
