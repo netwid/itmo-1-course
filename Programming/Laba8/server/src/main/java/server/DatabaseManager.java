@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class DatabaseManager {
@@ -25,7 +26,6 @@ public class DatabaseManager {
                     "user_id SERIAL PRIMARY KEY," +
                     "login VARCHAR(20) NOT NULL," +
                     "password VARCHAR(100) NOT NULL,"  +
-                    "salt VARCHAR(10) NOT NULL" +
                 ");" +
                 "CREATE TABLE IF NOT EXISTS movie (" +
                     "movie_id SERIAL PRIMARY KEY," +
@@ -49,9 +49,12 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println("Ошибка инициализации БД");
-            System.exit(0);
+            System.exit(1);
         } catch (FileNotFoundException e) {
             System.out.println("Не найден файл db.txt для аутенфикации");
+            System.exit(1);
+        } catch (NoSuchElementException e) {
+            System.out.println("Неверный формат db.txt");
             System.exit(1);
         }
     }
@@ -234,10 +237,9 @@ public class DatabaseManager {
                 return false;
             }
 
-            ps = conn.prepareStatement("INSERT INTO \"user\" (login, password, salt) VALUES (?, ?, ?)");
+            ps = conn.prepareStatement("INSERT INTO \"user\" (login, password) VALUES (?, ?)");
             ps.setString(1, login);
             ps.setString(2, password);
-            ps.setString(3, "");
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             return false;
