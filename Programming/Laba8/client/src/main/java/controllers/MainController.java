@@ -35,7 +35,6 @@ public class MainController implements Initializable {
     @FXML public MenuItem show;
     @FXML public MenuItem add;
     @FXML public MenuItem clear;
-    @FXML public MenuItem executeScript;
     @FXML public MenuItem addIfMax;
     @FXML public MenuItem addIfMin;
     @FXML public MenuItem removeLower;
@@ -110,7 +109,6 @@ public class MainController implements Initializable {
             WindowManager.createPopup("Add", "commands/add");
         });
         clear.setOnAction(event -> MainModel.clear());
-        executeScript.setOnAction(event -> MainModel.executeScript());
         addIfMax.setOnAction(event -> {
             WindowManager.addType = "add_if_max";
             WindowManager.createPopup("Add", "commands/add");

@@ -93,7 +93,6 @@
                     <MenuItem fx:id="show" mnemonicParsing="false" text="Show" />
                     <MenuItem fx:id="add" mnemonicParsing="false" text="Add" />
                     <MenuItem fx:id="clear" mnemonicParsing="false" text="Clear" />
-                    <MenuItem fx:id="executeScript" mnemonicParsing="false" text="Execute script" />
                     <MenuItem fx:id="addIfMax" mnemonicParsing="false" text="Add if max" />
                     <MenuItem fx:id="addIfMin" mnemonicParsing="false" text="Add if min" />
                     <MenuItem fx:id="removeLower" mnemonicParsing="false" text="Remove lower" />

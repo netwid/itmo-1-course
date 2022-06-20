@@ -9,9 +9,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class MainModel {
-    public static void executeScript() {
-
-    }
     public static void printFieldDescendingGenre() {
         Client.sendCommand("print_field_descending_genre");
         Response response = Client.receive();

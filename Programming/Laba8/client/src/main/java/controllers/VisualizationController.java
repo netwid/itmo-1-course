@@ -2,6 +2,7 @@ package controllers;
 
 import client.Client;
 import client.WindowManager;
+import com.jfoenix.controls.JFXButton;
 import data.Coordinates;
 import data.Movie;
 import data.Response;
@@ -12,7 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -20,13 +21,16 @@ import javafx.util.Duration;
 import models.AuthModel;
 import models.MovieTable;
 
-import javax.swing.event.CaretListener;
 import java.net.URL;
 import java.util.*;
 
 public class VisualizationController implements Initializable {
     @FXML
-    public AnchorPane pane;
+    public Pane pane;
+
+    @FXML
+    public JFXButton back;
+
     private HashMap<Group, Movie> movies = new HashMap<>();
     private Group chosen;
 
@@ -34,6 +38,8 @@ public class VisualizationController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Client.sendCommandObject("show", "1234", "1234", new Coordinates(0, 0));
         WindowManager.movies = (LinkedHashSet<Movie>) Client.receive().object;
+
+        double width = 1700, height = 820;
 
         int maxLength = Collections.max(WindowManager.movies, Comparator.comparingInt(Movie::getLength)).getLength();
         int minLength = Collections.min(WindowManager.movies, Comparator.comparingInt(Movie::getLength)).getLength();
@@ -45,10 +51,23 @@ public class VisualizationController implements Initializable {
         int minY = Collections.min(WindowManager.movies, Comparator.comparingInt(movie -> movie.getCoordinates().getY())).getCoordinates().getY();
 
         for (Movie movie : WindowManager.movies) {
-            Group g = cameraFabric(100 + 50 * (movie.getLength() - minLength) / (maxLength - minLength),
-                    movie.getOwnerId() == AuthModel.getInstance().getId() ? Color.GREEN : Color.BLACK);
-            g.setLayoutX(1700 * (movie.getCoordinates().getX() - minX) / (maxX - minX));
-            g.setLayoutY(925.0 * (movie.getCoordinates().getY() - minY) / (maxY - minY));
+            Group g;
+            try {
+                g = cameraFabric(100 + 50 * (movie.getLength() - minLength) / (maxLength - minLength),
+                        movie.getOwnerId() == AuthModel.getInstance().getId() ? Color.GREEN : Color.BLACK);
+            } catch (ArithmeticException e) {
+                g = cameraFabric(150,
+                        movie.getOwnerId() == AuthModel.getInstance().getId() ? Color.GREEN : Color.BLACK);
+            }
+            try {
+                // pane.getWidth() not working
+                g.setLayoutX(width * (movie.getCoordinates().getX() - minX) / (maxX - minX));
+                g.setLayoutY(height * (movie.getCoordinates().getY() - minY) / (maxY - minY));
+            } catch (ArithmeticException e) {
+                g.setLayoutX(0);
+                g.setLayoutY(0);
+            }
+
             movies.put(g, movie);
             pane.getChildren().add(g);
         }
@@ -64,7 +83,7 @@ public class VisualizationController implements Initializable {
                 if (result.get() == ButtonType.OK){
                     Movie movie = movies.get(chosen);
                     Client.sendCommandObject("update " + movie.getId(), movie.changeCoordinates(new Coordinates(
-                            event.getX(), (int) event.getY()
+                            minX + (maxX - minX) * event.getX() / width, (int) (minY + (maxY - minY) * event.getY() / height)
                     )));
                     Response response = Client.receive();
                     if (!response.success)
@@ -84,6 +103,8 @@ public class VisualizationController implements Initializable {
                 WindowManager.setScene("Main", "main");
             }
         });
+
+        back.setOnAction(event -> WindowManager.setScene("Main", "main"));
     }
 
     private Group cameraFabric(int length, Color color) {
