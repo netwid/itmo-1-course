@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@command.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.commands.HelpController">
+   <children>
+      <Label alignment="CENTER" layoutX="274.0" layoutY="14.0" styleClass="title" text="%help" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Label alignment="CENTER" layoutX="10.0" layoutY="58.0" text="%helpMsg" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+   </children>
+</AnchorPane>
