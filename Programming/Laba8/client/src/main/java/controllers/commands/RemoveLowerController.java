@@ -9,12 +9,13 @@ import data.Response;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import java.awt.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
-public class RemoveLower implements Initializable {
+public class RemoveLowerController implements Initializable {
     @FXML
     JFXTextField length;
 
@@ -29,12 +30,12 @@ public class RemoveLower implements Initializable {
                 Client.sendCommand("remove_lower " + length_);
                 Response response = Client.receive();
                 if (response.success) {
-                    WindowManager.updateCollection((LinkedHashSet<Movie>) response.object);
+                    WindowManager.updateCollection(new LinkedHashSet<> ((HashSet<Movie>) response.object));
                 } else {
                     WindowManager.alert(response.message);
                 }
             } catch (Exception e) {
-
+                System.out.println(e.getMessage());
             }
         });
     }

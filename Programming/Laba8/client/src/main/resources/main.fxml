@@ -75,8 +75,8 @@
                     <MenuItem fx:id="addIfMax" mnemonicParsing="false" text="Add if max" />
                     <MenuItem fx:id="addIfMin" mnemonicParsing="false" text="Add if min" />
                     <MenuItem fx:id="removeLower" mnemonicParsing="false" text="Remove lower" />
-                    <MenuItem mnemonicParsing="false" text="Count less than MPAA rating" />
-                    <MenuItem mnemonicParsing="false" text="Filter greater than MPAA rating" />
+                    <MenuItem fx:id="countLess" mnemonicParsing="false" text="Count less than MPAA rating" />
+                    <MenuItem fx:id="filterGreater" mnemonicParsing="false" text="Filter greater than MPAA rating" />
                     <MenuItem fx:id="printFieldDescendingGenre" mnemonicParsing="false" text="Print field descending genre" />
                     <MenuItem fx:id="exit" mnemonicParsing="false" text="Exit" />
                   </items>

@@ -49,6 +49,7 @@ public class CollectionManager {
                 int id = dm.add(movie, login);
                 if (id > 0) {
                     movie.setId(id);
+                    movie.setOwnerId(dm.getId(login));
                     movies.add(movie);
                     return true;
                 }
@@ -68,7 +69,7 @@ public class CollectionManager {
     public void clear(String login) {
         int userId = dm.getId(login);
         if (dm.clear(userId))
-            movies.removeIf(movie -> movie.getId() == userId);
+            movies.removeIf(movie -> movie.getOwnerId() == userId);
     }
 
     /**
@@ -94,6 +95,7 @@ public class CollectionManager {
                     if (movie.getId() == id) {
                         movies.remove(movie);
                         newMovie.setId(id);
+                        movie.setOwnerId(dm.getId(login));
                         movies.add(newMovie);
                         return true;
                     }
@@ -145,7 +147,7 @@ public class CollectionManager {
             try {
                 int userId = dm.getId(login);
                 if (dm.removeLower(length, userId))
-                    movies.removeIf(movie -> movie.getLength() < length && movie.getId() == userId);
+                    movies.removeIf(movie -> movie.getLength() < length && movie.getOwnerId() == userId);
             } finally {
                 lock.writeLock().unlock();
             }

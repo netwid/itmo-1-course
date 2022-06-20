@@ -117,10 +117,6 @@ public class Person implements Serializable {
             WindowManager.alert("Значение паспорта не должно превышать 41 символа");
             throw new Exception();
         }
-        if (Client.checkContainsPassport(passportID)) {
-            WindowManager.alert("Значение паспорта должно быть уникальным");
-            throw new Exception();
-        }
         return passportID;
     }
 

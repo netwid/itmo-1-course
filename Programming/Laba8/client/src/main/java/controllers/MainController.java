@@ -37,6 +37,8 @@ public class MainController implements Initializable {
     @FXML public MenuItem addIfMin;
     @FXML public MenuItem removeLower;
     @FXML public MenuItem printFieldDescendingGenre;
+    @FXML public MenuItem countLess;
+    @FXML public MenuItem filterGreater;
     @FXML public MenuItem exit;
     @FXML public Label login;
     @FXML public MenuItem russiaLang;
@@ -86,7 +88,7 @@ public class MainController implements Initializable {
             WindowManager.addType = "add";
             WindowManager.createPopup("Add", "commands/add");
         });
-        clear.setOnAction(event -> Client.sendCommand("clear"));
+        clear.setOnAction(event -> MainModel.clear());
         executeScript.setOnAction(event -> MainModel.executeScript());
         addIfMax.setOnAction(event -> {
             WindowManager.addType = "add_if_max";
@@ -98,6 +100,8 @@ public class MainController implements Initializable {
         });
         removeLower.setOnAction(event -> WindowManager.createPopup("Remove lower", "commands/removeLower"));
         printFieldDescendingGenre.setOnAction(event -> MainModel.printFieldDescendingGenre());
+        countLess.setOnAction(event -> WindowManager.createPopup("Count less", "commands/countLess"));
+        filterGreater.setOnAction(event -> WindowManager.createPopup("Filter greater", "commands/filterGreater"));
         exit.setOnAction(event -> {
             Platform.exit();
             System.exit(0);

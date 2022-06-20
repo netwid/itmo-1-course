@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="212.0" prefWidth="227.0" stylesheets="@../common.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.commands.FilterGreaterController">
+   <children>
+      <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" prefHeight="200.0" prefWidth="298.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="FilterGreater" />
+            <ChoiceBox fx:id="mpaaRating" prefWidth="150.0" />
+            <JFXButton fx:id="filter" text="Filter" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -34,7 +34,7 @@ public class Coordinates implements Serializable {
             return Double.parseDouble(x);
         }
         catch (NumberFormatException e) {
-            WindowManager.alert("Значение должно быть числом");
+            WindowManager.alert("Значение Y должно быть числом");
         }
         throw new Exception();
     }
@@ -52,7 +52,7 @@ public class Coordinates implements Serializable {
             return y;
         }
         catch (NumberFormatException e) {
-            WindowManager.alert("Значение должно быть целым числом");
+            WindowManager.alert("Значение X должно быть целым числом");
         } catch (Exception e) {
             WindowManager.alert(e.getMessage());
         }

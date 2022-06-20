@@ -181,6 +181,7 @@ public class DatabaseManager {
         try {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE owner_id = ?");
             ps.setInt(1, userId);
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             return false;
@@ -205,6 +206,7 @@ public class DatabaseManager {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM movie WHERE length < ? AND owner_id = ?");
             ps.setInt(1, length);
             ps.setInt(2, userId);
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             return false;

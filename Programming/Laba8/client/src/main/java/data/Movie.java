@@ -177,6 +177,10 @@ public class Movie implements Serializable {
         this.id = id;
     }
 
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public Movie changeCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
         return this;

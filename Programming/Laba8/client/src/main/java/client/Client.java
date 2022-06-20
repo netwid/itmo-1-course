@@ -107,12 +107,6 @@ public class Client {
         return null;
     }
 
-    public static boolean checkContainsPassport(String passportId) {
-        Client.sendCommand("check_passport " + passportId, "", "");
-        Response response = Client.receive();
-        return Boolean.parseBoolean(response.message);
-    }
-
     public static void updateCollection() {
 
     }
