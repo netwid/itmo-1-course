@@ -25,7 +25,7 @@ public class DatabaseManager {
                 "CREATE TABLE IF NOT EXISTS \"user\" (" +
                     "user_id SERIAL PRIMARY KEY," +
                     "login VARCHAR(20) NOT NULL," +
-                    "password VARCHAR(100) NOT NULL,"  +
+                    "password VARCHAR(100) NOT NULL"  +
                 ");" +
                 "CREATE TABLE IF NOT EXISTS movie (" +
                     "movie_id SERIAL PRIMARY KEY," +
