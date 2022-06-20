@@ -2,6 +2,7 @@ package server;
 
 import commands.*;
 import data.Request;
+import data.Yandex;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -79,8 +80,17 @@ public class Invoker {
                         }
                         return;
                     }
+                    if (request.command.equals("yandex")) {
+                        String login = AuthManager.yandex(request.password);
+                        if (login != null) {
+                            Server.sendObject(request.client, new Yandex(DatabaseManager.getInstance().getId(login), login));
+                        } else {
+                            Server.error(request.client, "Токен не верифицирован");
+                        }
+                        return;
+                    }
                     if (!AuthManager.checkLogin(request.login, request.password) && request.client != null) {
-                        Server.error(request.client, "Требуется аутенфикация");
+                        Server.error(request.client, "Требуется аутентификация");
                         return;
                     }
                     this.commands.get(request.command).execute(request);

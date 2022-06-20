@@ -1,6 +1,14 @@
 package server;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,5 +33,39 @@ public class AuthManager {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getLogin(String responseBody) {
+        try {
+            JSONObject album = new JSONObject(responseBody);
+            return album.getString("login");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String yandex(String token) {
+        BufferedReader reader;
+        String line;
+        StringBuilder responseContent = new StringBuilder();
+        try {
+            URL url = new URL("https://login.yandex.ru/info?oauth_token=" + token);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+
+            String login = getLogin(responseContent.toString());
+            AuthManager.register(login, token);
+            if (login != null)
+                return login;
+        } catch (IOException e) {
+            return null;
+        }
+        return null;
     }
 }

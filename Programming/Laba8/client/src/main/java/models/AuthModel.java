@@ -4,6 +4,7 @@ package models;
 import client.Client;
 import client.WindowManager;
 import data.Response;
+import data.Yandex;
 
 
 public class AuthModel {
@@ -34,7 +35,7 @@ public class AuthModel {
     public void login(String login, String password) {
         Client.sendCommand("login", login, password);
         Response response = Client.receive();
-        if (response.success == false) {
+        if (!response.success) {
             WindowManager.alert(response.message);
             return;
         }
@@ -47,13 +48,27 @@ public class AuthModel {
     public void register(String login, String password) {
         Client.sendCommand("register", login, password);
         Response response = Client.receive();
-        if (response.success == false) {
+        if (!response.success) {
             WindowManager.alert(response.message);
             return;
         }
         AuthModel.login = login;
         AuthModel.password = password;
         AuthModel.id = (int) response.object;
+        WindowManager.setScene("Manager", "main");
+    }
+
+    public static void yandex(String token) {
+        Client.sendCommand("yandex", token, token);
+        Response response = Client.receive();
+        if (!response.success) {
+            WindowManager.alert(response.message);
+            return;
+        }
+        Yandex yandex = (Yandex) response.object;
+        AuthModel.login = yandex.login;
+        AuthModel.password = token;
+        AuthModel.id = yandex.id;
         WindowManager.setScene("Manager", "main");
     }
 

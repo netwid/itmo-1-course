@@ -9,3 +9,15 @@
     -fx-pref-width: 100px;
     -fx-pref-height: 35px;
 }
+
+.yandex {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #f5c400;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-fill: black;
+    -jfx-button-type: FLAT;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 35px;
+}

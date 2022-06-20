@@ -2,13 +2,17 @@ package client;
 
 import data.Coordinates;
 import data.Movie;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import models.AuthModel;
 import models.MovieTable;
 
 import java.io.IOException;
@@ -17,6 +21,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class UTF8Control extends ResourceBundle.Control {
     public ResourceBundle newBundle
@@ -147,5 +153,28 @@ public class WindowManager {
     public static void updateCollection(LinkedHashSet<Movie> movies) {
         WindowManager.movies = movies;
         setScene(lastTitle, lastFxml);
+    }
+
+    public static void yandex() {
+        popup.close();
+        final WebView view = new WebView();
+        final WebEngine engine = view.getEngine();
+        engine.load("https://oauth.yandex.ru/authorize?client_id=b0638251523e4fb0a2df6320181ccef9&response_type=token");
+
+        popup.setScene(new Scene(view));
+        popup.show();
+
+        engine.locationProperty().addListener((ChangeListener<? super String>) (observable, oldValue, newValue) -> {
+            if (newValue.contains("#")) {
+                popup.close();
+                Pattern r = Pattern.compile("access_token=(.*?)&");
+                Matcher m = r.matcher(newValue);
+                if (m.find()) {
+                    AuthModel.yandex(m.group(1));
+                } else {
+                    WindowManager.alert("Неверная токен ссылка");
+                }
+            }
+        });
     }
 }
